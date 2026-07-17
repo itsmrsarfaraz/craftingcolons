@@ -25,4 +25,14 @@ class User extends Authenticatable
             'status' => \App\Enums\UserStatus::class,
         ];
     }
+
+    public function applicantProfile(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(ApplicantProfile::class);
+    }
+
+    public function applicantDocuments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ApplicantDocument::class);
+    }
 }

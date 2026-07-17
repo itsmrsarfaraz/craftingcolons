@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\ApplicantDocument;
+use App\Policies\ApplicantDocumentPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,5 +19,6 @@ class AppServiceProvider extends ServiceProvider
         Gate::before(function ($user, string $ability) {
             return $user->hasPermission($ability) ? true : null;
         });
+        Gate::policy(ApplicantDocument::class, ApplicantDocumentPolicy::class);
     }
 }
