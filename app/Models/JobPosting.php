@@ -40,4 +40,9 @@ class JobPosting extends Model
         return $this->status === JobPostingStatus::Published
             && (! $this->deadline || $this->deadline->isFuture());
     }
+
+    public function assessment(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Assessment::class);
+    }
 }

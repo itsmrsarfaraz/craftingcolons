@@ -5,7 +5,9 @@ use App\Http\Controllers\Applicant\ProfileController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Careers\JobApplicationController;
 use App\Http\Controllers\Careers\JobController;
+use App\Http\Controllers\Hr\AssessmentController;
 use App\Http\Controllers\Hr\JobPostingController;
+use App\Http\Controllers\Hr\QuestionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -71,5 +73,19 @@ Route::middleware('auth')->group(function () {
         Route::post('/jobs', [JobPostingController::class, 'store'])->name('jobs.store');
         Route::patch('/jobs/{jobPosting}/publish', [JobPostingController::class, 'publish'])->name('jobs.publish');
         Route::patch('/jobs/{jobPosting}/close', [JobPostingController::class, 'close'])->name('jobs.close');
+
+        Route::get('/jobs/{jobPosting}/assessment/create', [AssessmentController::class, 'create'])
+            ->name('assessments.create');
+        Route::post('/jobs/{jobPosting}/assessment', [AssessmentController::class, 'store'])
+            ->name('assessments.store');
+        Route::get('/assessments/{assessment}/edit', [AssessmentController::class, 'edit'])
+            ->name('assessments.edit');
+
+        Route::post('/assessments/{assessment}/questions', [QuestionController::class, 'store'])
+            ->name('questions.store');
+        Route::put('/assessments/{assessment}/questions/{question}', [QuestionController::class, 'update'])
+            ->name('questions.update');
+        Route::delete('/assessments/{assessment}/questions/{question}', [QuestionController::class, 'destroy'])
+            ->name('questions.destroy');
     });
 });
