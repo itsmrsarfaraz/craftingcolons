@@ -35,4 +35,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ApplicantDocument::class);
     }
+
+    public function jobApplications(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(JobApplication::class);
+    }
 }

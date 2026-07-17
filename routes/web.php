@@ -3,11 +3,19 @@
 use App\Http\Controllers\Applicant\DocumentController;
 use App\Http\Controllers\Applicant\ProfileController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Careers\JobApplicationController;
+use App\Http\Controllers\Careers\JobController;
+use App\Http\Controllers\Hr\JobPostingController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+// Public Careeers Pages
+Route::get('/careers', [JobController::class, 'index'])->name('careers.index');
+Route::get('/careers/{jobPosting:slug}', [JobController::class, 'show'])->name('careers.show');
+
 
 Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
@@ -47,5 +55,21 @@ Route::middleware('auth')->group(function () {
         Route::post('/documents', [DocumentController::class, 'store'])->name('documents.store');
         Route::get('/documents/{document}/download', [DocumentController::class, 'download'])->name('documents.download');
         Route::delete('/documents/{document}', [DocumentController::class, 'destroy'])->name('documents.destroy');
+    
+        Route::post('/careers/{jobPosting:slug}/apply', [JobApplicationController::class, 'store'])
+            ->name('applications.store');
+        Route::get('/applications', function () {
+            $applications = auth()->user()->jobApplications()->with('jobPosting')->latest()->paginate(10);
+            
+            return view('applicant.applications', compact('applications'));
+        })->name('applications.index');
+    });
+
+    Route::middleware('role:hr,admin')->prefix('hr')->name('hr.')->group(function () {
+        Route::get('/jobs', [JobPostingController::class, 'index'])->name('jobs.index');
+        Route::get('/jobs/create', [JobPostingController::class, 'create'])->name('jobs.create');
+        Route::post('/jobs', [JobPostingController::class, 'store'])->name('jobs.store');
+        Route::patch('/jobs/{jobPosting}/publish', [JobPostingController::class, 'publish'])->name('jobs.publish');
+        Route::patch('/jobs/{jobPosting}/close', [JobPostingController::class, 'close'])->name('jobs.close');
     });
 });
