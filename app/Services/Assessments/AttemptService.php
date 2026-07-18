@@ -55,6 +55,7 @@ class AttemptService
             'question_order' => $order,
             'started_at' => $startedAt,
             'expires_at' => $startedAt->clone()->addMinutes($assessment->duration_minutes),
+            'max_violations_allowed' => $assessment->max_violations_allowed, 
             'ip_address' => $request->ip(),
             'user_agent' => $request->userAgent(),
         ]);

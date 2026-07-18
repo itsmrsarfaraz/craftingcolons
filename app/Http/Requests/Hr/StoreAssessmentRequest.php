@@ -19,6 +19,7 @@ class StoreAssessmentRequest extends FormRequest
             'duration_minutes' => ['required', 'integer', 'min:5', 'max:480'],
             'passing_marks' => ['required', 'integer', 'min:0', 'max:100'],
             'shuffle_questions' => ['boolean'],
+            'max_violations_allowed' => ['required', 'integer', 'min:1', 'max:20'],
         ];
     }
 

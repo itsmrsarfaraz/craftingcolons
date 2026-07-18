@@ -62,4 +62,9 @@ class Attempt extends Model
 
         return collect($this->question_order)->map(fn ($id) => $questions->get($id))->filter()->values();
     }
+
+    public function violations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Violation::class);
+    }
 }

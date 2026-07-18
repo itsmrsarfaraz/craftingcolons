@@ -70,8 +70,9 @@ class AttemptTest extends TestCase
     {
         $application = $this->applicantWithApplication();
 
+        // Fixed route name here 🛑
         $response = $this->actingAs($application->applicant)
-            ->post(route('assessments.start', $application));
+            ->post(route('applicant.assessments.start', $application));
 
         $response->assertRedirect();
         $this->assertDatabaseHas('attempts', [
@@ -84,9 +85,10 @@ class AttemptTest extends TestCase
     {
         $application = $this->applicantWithApplication();
 
+        // Fixed route name here 🛑
         $response = $this->actingAs($application->applicant)
             ->withHeaders(['User-Agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)'])
-            ->post(route('assessments.start', $application));
+            ->post(route('applicant.assessments.start', $application));
 
         $response->assertForbidden();
         $this->assertDatabaseMissing('attempts', ['job_application_id' => $application->id]);
@@ -97,11 +99,12 @@ class AttemptTest extends TestCase
         $application = $this->applicantWithApplication();
         $applicant = $application->applicant;
 
-        $this->actingAs($applicant)->post(route('assessments.start', $application));
+        // Fixed route names here 🛑
+        $this->actingAs($applicant)->post(route('applicant.assessments.start', $application));
         $attempt = $application->fresh()->attempt;
-        $this->actingAs($applicant)->post(route('assessments.submit', $attempt));
+        $this->actingAs($applicant)->post(route('applicant.assessments.submit', $attempt));
 
-        $response = $this->actingAs($applicant)->post(route('assessments.start', $application));
+        $response = $this->actingAs($applicant)->post(route('applicant.assessments.start', $application));
 
         $response->assertSessionHasErrors('attempt');
         $this->assertDatabaseCount('attempts', 1);
@@ -112,14 +115,15 @@ class AttemptTest extends TestCase
         $application = $this->applicantWithApplication();
         $applicant = $application->applicant;
 
-        $this->actingAs($applicant)->post(route('assessments.start', $application));
+        // Fixed route names here 🛑
+        $this->actingAs($applicant)->post(route('applicant.assessments.start', $application));
         $attempt = $application->fresh()->attempt;
 
         // Force expiry
         $attempt->update(['expires_at' => now()->subMinute()]);
         $question = $attempt->assessment->questions()->first();
 
-        $response = $this->actingAs($applicant)->post(route('assessments.answer', $attempt), [
+        $response = $this->actingAs($applicant)->post(route('applicant.assessments.answer', $attempt), [
             'question_id' => $question->id,
             'selected_option_ids' => [$question->options()->first()->id],
         ]);

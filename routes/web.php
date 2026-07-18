@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Careers\JobApplicationController;
 use App\Http\Controllers\Careers\JobController;
 use App\Http\Controllers\Hr\AssessmentController;
+use App\Http\Controllers\Hr\AttemptReviewController;
 use App\Http\Controllers\Hr\JobPostingController;
 use App\Http\Controllers\Hr\QuestionController;
 use Illuminate\Support\Facades\Route;
@@ -77,6 +78,8 @@ Route::middleware('auth')->group(function () {
                 Route::get('/{attempt}', [AttemptController::class, 'show'])->name('show');
                 Route::post('/{attempt}/answer', [AttemptController::class, 'saveAnswer'])->name('answer');
                 Route::post('/{attempt}/submit', [AttemptController::class, 'submit'])->name('submit');
+
+                Route::post('/{attempt}/violation', [AttemptController::class, 'reportViolation'])->name('violation');
             });
     });
 
@@ -100,5 +103,7 @@ Route::middleware('auth')->group(function () {
             ->name('questions.update');
         Route::delete('/assessments/{assessment}/questions/{question}', [QuestionController::class, 'destroy'])
             ->name('questions.destroy');
+
+        Route::get('/attempts/{attempt}', [AttemptReviewController::class, 'show'])->name('attempts.show');
     });
 });
