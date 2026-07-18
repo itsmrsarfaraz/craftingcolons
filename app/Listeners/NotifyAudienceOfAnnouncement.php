@@ -6,7 +6,7 @@ use App\Events\AnnouncementPublished;
 use App\Models\User;
 use App\Notifications\NewAnnouncementNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Notification;
 
 class NotifyAudienceOfAnnouncement implements ShouldQueue
 {
