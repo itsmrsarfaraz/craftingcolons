@@ -8,7 +8,12 @@ use App\Http\Controllers\Careers\JobApplicationController;
 use App\Http\Controllers\Hr\JobApplicationController as HrJobApplicationController;
 use App\Http\Controllers\Careers\JobController;
 use App\Http\Controllers\Cms\ArticleController as PublicArticleController;
+use App\Http\Controllers\Cms\NewsController as PublicNewsController;
+use App\Http\Controllers\Cms\EventController as PublicEventController;
+use App\Http\Controllers\Cms\EventRegistrationController;
 use App\Http\Controllers\Staff\ArticleController as StaffArticleController;
+use App\Http\Controllers\Staff\NewsController as StaffNewsController;
+use App\Http\Controllers\Staff\EventController as StaffEventController;
 use App\Http\Controllers\Employee\AnnouncementFeedController;
 use App\Http\Controllers\Employee\AttendanceController;
 use App\Http\Controllers\Employee\NotificationController;
@@ -30,6 +35,15 @@ Route::get('/', function () {
 
 Route::get('/articles', [PublicArticleController::class, 'index'])->name('articles.index');
 Route::get('/articles/{article:slug}', [PublicArticleController::class, 'show'])->name('articles.show');
+
+Route::get('/news', [PublicNewsController::class, 'index'])->name('news.index');
+Route::get('/news/{news:slug}', [PublicNewsController::class, 'show'])->name('news.show');
+
+Route::get('/events', [PublicEventController::class, 'index'])->name('events.index');
+Route::get('/events/{event:slug}', [PublicEventController::class, 'show'])->name('events.show');
+
+Route::middleware('auth')->post('/events/{event:slug}/register', [EventRegistrationController::class, 'store'])
+    ->name('events.register');
 
 // Public Careeers Pages
 Route::get('/careers', [JobController::class, 'index'])->name('careers.index');
@@ -169,5 +183,13 @@ Route::middleware('auth')->group(function () {
         Route::post('/articles', [StaffArticleController::class, 'store'])->name('articles.store');
         Route::get('/articles/{article}/edit', [StaffArticleController::class, 'edit'])->name('articles.edit');
         Route::put('/articles/{article}', [StaffArticleController::class, 'update'])->name('articles.update');
+
+        Route::get('/news', [StaffNewsController::class, 'index'])->name('news.index');
+        Route::get('/news/create', [StaffNewsController::class, 'create'])->name('news.create');
+        Route::post('/news', [StaffNewsController::class, 'store'])->name('news.store');
+
+        Route::get('/events', [StaffEventController::class, 'index'])->name('events.index');
+        Route::get('/events/create', [StaffEventController::class, 'create'])->name('events.create');
+        Route::post('/events', [StaffEventController::class, 'store'])->name('events.store');
     });
 });

@@ -55,4 +55,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Employee::class, 'reports_to');
     }
+
+    public function eventRegistrations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(EventRegistration::class);
+    }
 }
