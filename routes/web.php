@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Applicant\DocumentController;
 use App\Http\Controllers\Applicant\ProfileController;
+use App\Http\Controllers\Assessments\AttemptController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Careers\JobApplicationController;
 use App\Http\Controllers\Careers\JobController;
@@ -65,6 +66,18 @@ Route::middleware('auth')->group(function () {
             
             return view('applicant.applications', compact('applications'));
         })->name('applications.index');
+
+
+        Route::middleware(['desktop'])
+            ->prefix('assessments')
+            ->name('assessments.')
+            ->group(function () {
+                Route::post('/applications/{jobApplication}/start', [AttemptController::class, 'start'])
+                    ->name('start');
+                Route::get('/{attempt}', [AttemptController::class, 'show'])->name('show');
+                Route::post('/{attempt}/answer', [AttemptController::class, 'saveAnswer'])->name('answer');
+                Route::post('/{attempt}/submit', [AttemptController::class, 'submit'])->name('submit');
+            });
     });
 
     Route::middleware('role:hr,admin')->prefix('hr')->name('hr.')->group(function () {

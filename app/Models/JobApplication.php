@@ -33,4 +33,9 @@ class JobApplication extends Model
     {
         return $this->belongsTo(ApplicantDocument::class, 'applicant_document_id');
     }
+
+    public function attempt(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Attempt::class);
+    }
 }
