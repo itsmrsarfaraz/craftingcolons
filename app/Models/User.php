@@ -26,6 +26,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function applicant(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function applicantProfile(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(ApplicantProfile::class);

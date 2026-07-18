@@ -21,7 +21,7 @@ class EmployeeOnboardingService
             ]);
         }
 
-        if ($application->user->employee) {
+        if ($application->applicant->employee) {
             throw ValidationException::withMessages([
                 'application' => 'This user has already been onboarded.',
             ]);
@@ -35,7 +35,7 @@ class EmployeeOnboardingService
         ]);
 
         $roleSlug = $data['employment_type'] === 'internship' ? 'intern' : 'employee';
-        $application->user->assignRole($roleSlug);
+        $application->applicant->assignRole($roleSlug);
 
         return $employee;
     }
