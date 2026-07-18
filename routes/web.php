@@ -5,6 +5,7 @@ use App\Http\Controllers\Applicant\ProfileController;
 use App\Http\Controllers\Assessments\AttemptController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Careers\JobApplicationController;
+use App\Http\Controllers\Hr\JobApplicationController as HrJobApplicationController;
 use App\Http\Controllers\Careers\JobController;
 use App\Http\Controllers\Hr\AssessmentController;
 use App\Http\Controllers\Hr\AttemptReviewController;
@@ -111,11 +112,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/attempts/{attempt}/grade', [GradingController::class, 'show'])->name('grading.show');
         Route::post('/attempts/{attempt}/grade', [GradingController::class, 'store'])->name('grading.store');
 
-        Route::get('/jobs/{jobPosting}/applications', [JobApplicationController::class, 'index'])
+        Route::get('/jobs/{jobPosting}/applications', [HrJobApplicationController::class, 'index'])
             ->name('applications.index');
-        Route::get('/applications/{application}', [JobApplicationController::class, 'show'])
+        Route::get('/applications/{application}', [HrJobApplicationController::class, 'show'])
             ->name('applications.show');
-        Route::patch('/applications/{application}/status', [JobApplicationController::class, 'updateStatus'])
+        Route::patch('/applications/{application}/status', [HrJobApplicationController::class, 'updateStatus'])
             ->name('applications.status');
     });
 });
