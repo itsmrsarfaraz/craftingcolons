@@ -95,6 +95,10 @@ class GradingService
             'graded_at' => now(),
         ]);
 
-        return $attempt->fresh();
+        $attempt = $attempt->fresh();
+
+        \App\Events\AssessmentGraded::dispatch($attempt);
+
+        return $attempt;
     }
 }

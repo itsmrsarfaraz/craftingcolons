@@ -110,5 +110,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/jobs/{jobPosting}/ranking', [GradingController::class, 'ranking'])->name('grading.ranking');
         Route::get('/attempts/{attempt}/grade', [GradingController::class, 'show'])->name('grading.show');
         Route::post('/attempts/{attempt}/grade', [GradingController::class, 'store'])->name('grading.store');
+
+        Route::get('/jobs/{jobPosting}/applications', [JobApplicationController::class, 'index'])
+            ->name('applications.index');
+        Route::get('/applications/{application}', [JobApplicationController::class, 'show'])
+            ->name('applications.show');
+        Route::patch('/applications/{application}/status', [JobApplicationController::class, 'updateStatus'])
+            ->name('applications.status');
     });
 });
