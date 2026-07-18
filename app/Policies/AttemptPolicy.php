@@ -64,4 +64,10 @@ class AttemptPolicy
     {
         return false;
     }
+
+
+    public function grade(User $user, Attempt $attempt): bool
+    {
+        return $user->can('manage-assessments');
+    }
 }

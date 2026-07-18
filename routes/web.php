@@ -8,6 +8,7 @@ use App\Http\Controllers\Careers\JobApplicationController;
 use App\Http\Controllers\Careers\JobController;
 use App\Http\Controllers\Hr\AssessmentController;
 use App\Http\Controllers\Hr\AttemptReviewController;
+use App\Http\Controllers\Hr\GradingController;
 use App\Http\Controllers\Hr\JobPostingController;
 use App\Http\Controllers\Hr\QuestionController;
 use Illuminate\Support\Facades\Route;
@@ -105,5 +106,9 @@ Route::middleware('auth')->group(function () {
             ->name('questions.destroy');
 
         Route::get('/attempts/{attempt}', [AttemptReviewController::class, 'show'])->name('attempts.show');
+
+        Route::get('/jobs/{jobPosting}/ranking', [GradingController::class, 'ranking'])->name('grading.ranking');
+        Route::get('/attempts/{attempt}/grade', [GradingController::class, 'show'])->name('grading.show');
+        Route::post('/attempts/{attempt}/grade', [GradingController::class, 'store'])->name('grading.store');
     });
 });

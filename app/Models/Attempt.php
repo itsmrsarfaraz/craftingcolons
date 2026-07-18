@@ -15,12 +15,21 @@ class Attempt extends Model
     protected function casts(): array
     {
         return [
+            'passed' => 'boolean',
             'status' => AttemptStatus::class,
             'question_order' => 'array',
             'started_at' => 'datetime',
             'expires_at' => 'datetime',
             'submitted_at' => 'datetime',
+            'graded_at' => 'datetime',
         ];
+    }
+
+    public function needsManualReview(): bool
+    {
+        return $this->status->isFinal()
+            && $this->status->value !== 'disqualified'
+            && is_null($this->graded_at);
     }
 
     public function jobApplication(): BelongsTo

@@ -13,6 +13,9 @@ use Illuminate\Validation\ValidationException;
 
 class AttemptService
 {
+    public function __construct(private readonly GradingService $gradingService)
+    {
+    }
     /**
      * Start (or resume) the single attempt for this application.
      * Throws if an attempt already exists in a final state — enforces
@@ -96,7 +99,7 @@ class AttemptService
             'submitted_at' => now(),
         ]);
 
-        return $attempt;
+        return $this->gradingService->gradeOnSubmission($attempt->fresh());
     }
 
     public function autoSubmit(Attempt $attempt): Attempt
@@ -106,7 +109,7 @@ class AttemptService
             'submitted_at' => $attempt->expires_at,
         ]);
 
-        return $attempt;
+        return $this->gradingService->gradeOnSubmission($attempt->fresh());
     }
 
     private function assertActiveAndNotExpired(Attempt $attempt): void
