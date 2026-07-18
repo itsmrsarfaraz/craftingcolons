@@ -39,4 +39,9 @@ class Employee extends Model
     {
         return $this->hasMany(Attendance::class);
     }
+
+    public function tasks(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Task::class);
+    }
 }

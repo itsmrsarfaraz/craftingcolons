@@ -8,12 +8,15 @@ use App\Http\Controllers\Careers\JobApplicationController;
 use App\Http\Controllers\Hr\JobApplicationController as HrJobApplicationController;
 use App\Http\Controllers\Careers\JobController;
 use App\Http\Controllers\Employee\AttendanceController;
+use App\Http\Controllers\Employee\TaskController;
+use App\Http\Controllers\Employee\TaskReportController;
 use App\Http\Controllers\Hr\AssessmentController;
 use App\Http\Controllers\Hr\AttemptReviewController;
 use App\Http\Controllers\Hr\EmployeeOnboardingController;
 use App\Http\Controllers\Hr\GradingController;
 use App\Http\Controllers\Hr\JobPostingController;
 use App\Http\Controllers\Hr\QuestionController;
+use App\Http\Controllers\TeamLead\TaskReviewController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -131,5 +134,16 @@ Route::middleware('auth')->group(function () {
         Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
         Route::post('/attendance/clock-in', [AttendanceController::class, 'clockIn'])->name('attendance.clock-in');
         Route::post('/attendance/clock-out', [AttendanceController::class, 'clockOut'])->name('attendance.clock-out');
+
+        Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
+        Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
+        Route::patch('/tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('tasks.status');
+        Route::post('/tasks/{task}/reports', [TaskReportController::class, 'store'])->name('tasks.reports.store');
+    });
+
+    Route::middleware('role:team-lead,hr,admin')->prefix('team-lead')->name('team-lead.')->group(function () {
+        Route::get('/tasks', [TaskReviewController::class, 'index'])->name('tasks.review');
+        Route::patch('/tasks/{task}/approve', [TaskReviewController::class, 'approve'])->name('tasks.approve');
+        Route::patch('/tasks/{task}/request-changes', [TaskReviewController::class, 'requestChanges'])->name('tasks.request-changes');
     });
 });

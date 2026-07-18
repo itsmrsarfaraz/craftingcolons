@@ -11,6 +11,7 @@ use App\Models\Attendance;
 use App\Models\Employee;
 use App\Models\JobApplication;
 use App\Models\JobPosting;
+use App\Models\Task;
 use App\Policies\ApplicantDocumentPolicy;
 use App\Policies\AssessmentPolicy;
 use App\Policies\AttemptPolicy;
@@ -18,6 +19,7 @@ use App\Policies\AttendancePolicy;
 use App\Policies\EmployeePolicy;
 use App\Policies\JobApplicationPolicy;
 use App\Policies\JobPostingPolicy;
+use App\Policies\TaskPolicy;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -41,6 +43,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(JobApplication::class, JobApplicationPolicy::class);
         Gate::policy(Employee::class, EmployeePolicy::class);
         Gate::policy(Attendance::class, AttendancePolicy::class);
+        Gate::policy(Task::class, TaskPolicy::class);
 
         Event::listen(AssessmentGraded::class, SyncJobApplicationStatusFromAssessment::class);
     }
