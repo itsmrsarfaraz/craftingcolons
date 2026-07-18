@@ -7,7 +7,9 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Careers\JobApplicationController;
 use App\Http\Controllers\Hr\JobApplicationController as HrJobApplicationController;
 use App\Http\Controllers\Careers\JobController;
+use App\Http\Controllers\Employee\AnnouncementFeedController;
 use App\Http\Controllers\Employee\AttendanceController;
+use App\Http\Controllers\Employee\NotificationController;
 use App\Http\Controllers\Employee\TaskController;
 use App\Http\Controllers\Employee\TaskReportController;
 use App\Http\Controllers\Hr\AssessmentController;
@@ -16,6 +18,7 @@ use App\Http\Controllers\Hr\EmployeeOnboardingController;
 use App\Http\Controllers\Hr\GradingController;
 use App\Http\Controllers\Hr\JobPostingController;
 use App\Http\Controllers\Hr\QuestionController;
+use App\Http\Controllers\Staff\AnnouncementController;
 use App\Http\Controllers\TeamLead\TaskReviewController;
 use Illuminate\Support\Facades\Route;
 
@@ -58,6 +61,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/admin/dashboard', fn () => view('dashboards.admin'))
         ->middleware('role:admin')->name('admin.dashboard');
+
+    Route::get('/announcements', [AnnouncementFeedController::class, 'index'])->name('announcements.feed');
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::patch('/notifications/{notificationId}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
 
     Route::middleware('role:applicant')->prefix('applicant')->name('applicant.')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -145,5 +152,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/tasks', [TaskReviewController::class, 'index'])->name('tasks.review');
         Route::patch('/tasks/{task}/approve', [TaskReviewController::class, 'approve'])->name('tasks.approve');
         Route::patch('/tasks/{task}/request-changes', [TaskReviewController::class, 'requestChanges'])->name('tasks.request-changes');
+    });
+
+    Route::middleware('role:staff,admin')->prefix('staff')->name('staff.')->group(function () {
+        Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
+        Route::post('/announcements', [AnnouncementController::class, 'store'])->name('announcements.store');
+        Route::patch('/announcements/{announcement}/publish', [AnnouncementController::class, 'publish'])->name('announcements.publish');
     });
 });
