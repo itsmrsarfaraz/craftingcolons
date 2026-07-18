@@ -25,6 +25,6 @@ class Announcement extends Model
 
     public function isPublished(): bool
     {
-        return $this->published_at !== null && $this->published_at->isPast();
+        return $this->published_at !== null && $this->published_at->lessThanOrEqualTo(now());
     }
 }

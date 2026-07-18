@@ -7,6 +7,8 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Careers\JobApplicationController;
 use App\Http\Controllers\Hr\JobApplicationController as HrJobApplicationController;
 use App\Http\Controllers\Careers\JobController;
+use App\Http\Controllers\Cms\ArticleController as PublicArticleController;
+use App\Http\Controllers\Staff\ArticleController as StaffArticleController;
 use App\Http\Controllers\Employee\AnnouncementFeedController;
 use App\Http\Controllers\Employee\AttendanceController;
 use App\Http\Controllers\Employee\NotificationController;
@@ -25,6 +27,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+Route::get('/articles', [PublicArticleController::class, 'index'])->name('articles.index');
+Route::get('/articles/{article:slug}', [PublicArticleController::class, 'show'])->name('articles.show');
 
 // Public Careeers Pages
 Route::get('/careers', [JobController::class, 'index'])->name('careers.index');
@@ -158,5 +163,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
         Route::post('/announcements', [AnnouncementController::class, 'store'])->name('announcements.store');
         Route::patch('/announcements/{announcement}/publish', [AnnouncementController::class, 'publish'])->name('announcements.publish');
+
+        Route::get('/articles', [StaffArticleController::class, 'index'])->name('articles.index');
+        Route::get('/articles/create', [StaffArticleController::class, 'create'])->name('articles.create');
+        Route::post('/articles', [StaffArticleController::class, 'store'])->name('articles.store');
+        Route::get('/articles/{article}/edit', [StaffArticleController::class, 'edit'])->name('articles.edit');
+        Route::put('/articles/{article}', [StaffArticleController::class, 'update'])->name('articles.update');
     });
 });

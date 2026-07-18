@@ -8,6 +8,7 @@ use App\Listeners\NotifyAudienceOfAnnouncement;
 use App\Listeners\SyncJobApplicationStatusFromAssessment;
 use App\Models\Announcement;
 use App\Models\ApplicantDocument;
+use App\Models\Article;
 use App\Models\Assessment;
 use App\Models\Attempt;
 use App\Models\Attendance;
@@ -17,6 +18,7 @@ use App\Models\JobPosting;
 use App\Models\Task;
 use App\Policies\AnnouncementPolicy;
 use App\Policies\ApplicantDocumentPolicy;
+use App\Policies\ArticlePolicy;
 use App\Policies\AssessmentPolicy;
 use App\Policies\AttemptPolicy;
 use App\Policies\AttendancePolicy;
@@ -49,6 +51,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Attendance::class, AttendancePolicy::class);
         Gate::policy(Task::class, TaskPolicy::class);
         Gate::policy(Announcement::class, AnnouncementPolicy::class);
+        Gate::policy(Article::class, ArticlePolicy::class);
 
         Event::listen(AssessmentGraded::class, SyncJobApplicationStatusFromAssessment::class);
         Event::listen(AnnouncementPublished::class, NotifyAudienceOfAnnouncement::class);
