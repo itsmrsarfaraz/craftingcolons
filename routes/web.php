@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Careers\JobApplicationController;
 use App\Http\Controllers\Hr\JobApplicationController as HrJobApplicationController;
 use App\Http\Controllers\Careers\JobController;
+use App\Http\Controllers\Employee\AttendanceController;
 use App\Http\Controllers\Hr\AssessmentController;
 use App\Http\Controllers\Hr\AttemptReviewController;
 use App\Http\Controllers\Hr\EmployeeOnboardingController;
@@ -124,5 +125,11 @@ Route::middleware('auth')->group(function () {
             ->name('onboarding.create');
         Route::post('/applications/{application}/onboard', [EmployeeOnboardingController::class, 'store'])
             ->name('onboarding.store');
+    });
+
+    Route::middleware('role:employee')->prefix('employee')->name('employee.')->group(function () {
+        Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
+        Route::post('/attendance/clock-in', [AttendanceController::class, 'clockIn'])->name('attendance.clock-in');
+        Route::post('/attendance/clock-out', [AttendanceController::class, 'clockOut'])->name('attendance.clock-out');
     });
 });

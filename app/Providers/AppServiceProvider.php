@@ -7,12 +7,14 @@ use App\Listeners\SyncJobApplicationStatusFromAssessment;
 use App\Models\ApplicantDocument;
 use App\Models\Assessment;
 use App\Models\Attempt;
+use App\Models\Attendance;
 use App\Models\Employee;
 use App\Models\JobApplication;
 use App\Models\JobPosting;
 use App\Policies\ApplicantDocumentPolicy;
 use App\Policies\AssessmentPolicy;
 use App\Policies\AttemptPolicy;
+use App\Policies\AttendancePolicy;
 use App\Policies\EmployeePolicy;
 use App\Policies\JobApplicationPolicy;
 use App\Policies\JobPostingPolicy;
@@ -38,6 +40,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Attempt::class, AttemptPolicy::class);
         Gate::policy(JobApplication::class, JobApplicationPolicy::class);
         Gate::policy(Employee::class, EmployeePolicy::class);
+        Gate::policy(Attendance::class, AttendancePolicy::class);
 
         Event::listen(AssessmentGraded::class, SyncJobApplicationStatusFromAssessment::class);
     }

@@ -34,4 +34,9 @@ class Employee extends Model
     {
         return $this->belongsTo(User::class, 'reports_to');
     }
+
+    public function attendances(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Attendance::class);
+    }
 }
