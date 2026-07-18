@@ -40,4 +40,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(JobApplication::class);
     }
+
+    public function employee(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Employee::class);
+    }
+
+    public function managedEmployees(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Employee::class, 'reports_to');
+    }
 }

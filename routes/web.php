@@ -9,6 +9,7 @@ use App\Http\Controllers\Hr\JobApplicationController as HrJobApplicationControll
 use App\Http\Controllers\Careers\JobController;
 use App\Http\Controllers\Hr\AssessmentController;
 use App\Http\Controllers\Hr\AttemptReviewController;
+use App\Http\Controllers\Hr\EmployeeOnboardingController;
 use App\Http\Controllers\Hr\GradingController;
 use App\Http\Controllers\Hr\JobPostingController;
 use App\Http\Controllers\Hr\QuestionController;
@@ -39,7 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/intern/dashboard', fn () => view('dashboards.intern'))
         ->middleware('role:intern')->name('intern.dashboard');
 
-    Route::get('/employee/dashboard', fn () => view('dashboards.employee'))
+    Route::get('/employee/dashboard', [\App\Http\Controllers\Employee\DashboardController::class, 'index'])
         ->middleware('role:employee')->name('employee.dashboard');
 
     Route::get('/team-lead/dashboard', fn () => view('dashboards.team-lead'))
@@ -118,5 +119,10 @@ Route::middleware('auth')->group(function () {
             ->name('applications.show');
         Route::patch('/applications/{application}/status', [HrJobApplicationController::class, 'updateStatus'])
             ->name('applications.status');
+
+        Route::get('/applications/{application}/onboard', [EmployeeOnboardingController::class, 'create'])
+            ->name('onboarding.create');
+        Route::post('/applications/{application}/onboard', [EmployeeOnboardingController::class, 'store'])
+            ->name('onboarding.store');
     });
 });
