@@ -9,6 +9,7 @@
     <div class="max-w-3xl mx-auto space-y-6">
         <div class="flex items-center justify-between">
             <h1 class="text-2xl font-semibold">Articles</h1>
+            <a href="{{ route('staff.categories.index') }}" class="btn-secondary !px-4 !py-2 text-xs">Manage Categories</a>
             <a href="{{ route('staff.articles.create') }}"
                class="bg-white text-neutral-950 font-medium rounded-lg px-4 py-2 text-sm hover:bg-neutral-200">
                 + New Article

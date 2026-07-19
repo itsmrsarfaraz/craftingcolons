@@ -20,6 +20,7 @@ class StoreNewsRequest extends FormRequest
             'title' => ['required', 'string', 'max:200'],
             'excerpt' => ['nullable', 'string', 'max:500'],
             'body' => ['required', 'string'],
+            'categories' => ['nullable', 'array'], 'categories.*' => ['integer', 'exists:categories,id'],
             'status' => ['required', Rule::enum(NewsStatus::class)],
             'meta_title' => ['nullable', 'string', 'max:60'],
             'meta_description' => ['nullable', 'string', 'max:160'],

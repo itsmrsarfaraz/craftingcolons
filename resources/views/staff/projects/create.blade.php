@@ -110,18 +110,6 @@
                 </div>
             </div>
 
-            {{-- Categories --}}
-            <div>
-                <label class="block text-sm text-neutral-300 mb-1">Project Categories</label>
-                <select name="categories[]" multiple class="w-full rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2">
-                    @foreach ($categories as $category)
-                        <option value="{{ $category->id }}" {{ in_array($category->id, old('categories', [])) ? 'selected' : '' }}>
-                            {{ $category->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-
             {{-- Tags --}}
             <input type="text" name="tags" value="{{ old('tags') }}" placeholder="Tags, comma separated"
                 class="w-full rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2">

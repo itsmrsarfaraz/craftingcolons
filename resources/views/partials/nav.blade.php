@@ -17,6 +17,7 @@
             <a href="{{ route('articles.index') }}" class="text-sm text-ink-300 transition hover:text-white">Articles</a>
             <a href="{{ route('news.index') }}" class="text-sm text-ink-300 transition hover:text-white">News</a>
             <a href="{{ route('events.index') }}" class="text-sm text-ink-300 transition hover:text-white">Events</a>
+            <a href="{{ route('services.index') }}" class="text-sm text-ink-300 transition hover:text-white">Services</a>
         </div>
 
         <div class="flex items-center gap-2 sm:gap-3">
@@ -70,6 +71,7 @@
             <a href="{{ route('articles.index') }}" class="rounded-lg px-3 py-3 text-sm font-medium text-ink-200 hover:bg-ink-900 hover:text-white">Articles</a>
             <a href="{{ route('news.index') }}" class="rounded-lg px-3 py-3 text-sm font-medium text-ink-200 hover:bg-ink-900 hover:text-white">News</a>
             <a href="{{ route('events.index') }}" class="rounded-lg px-3 py-3 text-sm font-medium text-ink-200 hover:bg-ink-900 hover:text-white">Events</a>
+            <a href="{{ route('services.index') }}" class="text-sm text-ink-300 transition hover:text-white">Services</a>
         </div>
         <div class="mt-5 flex flex-col gap-3 border-t border-ink-800 pt-5">
             @auth

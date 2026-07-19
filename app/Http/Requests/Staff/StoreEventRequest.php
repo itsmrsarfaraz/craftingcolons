@@ -25,6 +25,7 @@ class StoreEventRequest extends FormRequest
             'ends_at' => ['required', 'date', 'after:starts_at'],
             'max_attendees' => ['nullable', 'integer', 'min:1'],
             'status' => ['required', Rule::enum(EventStatus::class)],
+            'categories' => ['nullable', 'array'], 'categories.*' => ['integer', 'exists:categories,id'],
         ];
     }
 

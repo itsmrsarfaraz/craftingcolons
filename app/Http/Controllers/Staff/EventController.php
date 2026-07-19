@@ -28,7 +28,9 @@ class EventController extends Controller
     {
         $this->authorize('create', Event::class);
 
-        return view('staff.events.create');
+        $categories = \App\Models\Category::where('type', \App\Enums\CategoryType::Event)->get();
+
+        return view('staff.events.create', compact('categories'));
     }
 
     public function store(StoreEventRequest $request): RedirectResponse

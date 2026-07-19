@@ -35,6 +35,7 @@ use App\Http\Controllers\Hr\QuestionController;
 use App\Http\Controllers\Search\GlobalSearchController;
 use App\Http\Controllers\Seo\SitemapController;
 use App\Http\Controllers\Staff\AnnouncementController;
+use App\Http\Controllers\Staff\CategoryController;
 use App\Http\Controllers\TeamLead\TaskReviewController;
 use Illuminate\Support\Facades\Route;
 
@@ -219,6 +220,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/services', [StaffServiceController::class, 'store'])->name('services.store');
         Route::get('/services/{service}/edit', [StaffServiceController::class, 'edit'])->name('services.edit');
         Route::put('/services/{service}', [StaffServiceController::class, 'update'])->name('services.update');
+
+        Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+        Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+        Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
     });
 
     Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {

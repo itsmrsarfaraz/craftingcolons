@@ -28,7 +28,9 @@ class NewsController extends Controller
     {
         $this->authorize('create', News::class);
 
-        return view('staff.news.create');
+        $categories = \App\Models\Category::where('type', \App\Enums\CategoryType::News)->get();
+
+        return view('staff.news.create', compact('categories'));
     }
 
     public function store(StoreNewsRequest $request): RedirectResponse
