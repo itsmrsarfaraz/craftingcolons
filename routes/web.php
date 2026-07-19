@@ -204,10 +204,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/news', [StaffNewsController::class, 'index'])->name('news.index');
         Route::get('/news/create', [StaffNewsController::class, 'create'])->name('news.create');
         Route::post('/news', [StaffNewsController::class, 'store'])->name('news.store');
+        Route::get('/news/{news}/edit', [StaffNewsController::class, 'edit'])->name('news.edit');
+        Route::put('/news/{news}', [StaffNewsController::class, 'update'])->name('news.update');
 
         Route::get('/events', [StaffEventController::class, 'index'])->name('events.index');
         Route::get('/events/create', [StaffEventController::class, 'create'])->name('events.create');
         Route::post('/events', [StaffEventController::class, 'store'])->name('events.store');
+        Route::get('/events/{event}/edit', [StaffEventController::class, 'edit'])->name('events.edit');
+        Route::put('/events/{event}', [StaffEventController::class, 'update'])->name('events.update');
 
         Route::get('/projects', [StaffProjectController::class, 'index'])->name('projects.index');
         Route::get('/projects/create', [StaffProjectController::class, 'create'])->name('projects.create');
@@ -223,6 +227,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
         Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+        Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
         Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
     });
 

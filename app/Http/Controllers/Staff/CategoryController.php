@@ -29,6 +29,19 @@ class CategoryController extends Controller
         return back()->with('status', 'Category created.');
     }
 
+    public function update(StoreCategoryRequest $request, Category $category): RedirectResponse
+    {
+        abort_unless(auth()->user()->can('publish-articles') || auth()->user()->hasRole('admin'), 403);
+
+        $category->update([
+            'name' => $request->validated('name'),
+            'slug' => $request->slug(),
+            'type' => $request->validated('type'),
+        ]);
+
+        return back()->with('status', 'Category updated.');
+    }
+
     public function destroy(Category $category): RedirectResponse
     {
         abort_unless(auth()->user()->can('publish-articles') || auth()->user()->hasRole('admin'), 403);

@@ -25,4 +25,21 @@ class NewsService
 
         return $news;
     }
+
+    public function update(News $news, array $data): News
+    {
+        $news->update([
+            'title' => $data['title'],
+            'excerpt' => $data['excerpt'] ?? null,
+            'body' => $data['body'],
+            'status' => $data['status'],
+            'published_at' => $data['status'] === 'published' ? ($news->published_at ?? now()) : null,
+            'meta_title' => $data['meta_title'] ?? null,
+            'meta_description' => $data['meta_description'] ?? null,
+        ]);
+
+        $news->categories()->sync($data['categories'] ?? []);
+
+        return $news->fresh();
+    }
 }

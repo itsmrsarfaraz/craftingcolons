@@ -39,4 +39,23 @@ class EventController extends Controller
 
         return redirect()->route('staff.events.index')->with('status', 'Event created.');
     }
+
+    public function edit(Event $event): View
+    {
+        $this->authorize('update', $event);
+
+        $categories = \App\Models\Category::where('type', \App\Enums\CategoryType::Event)->get();
+        $event->load('categories');
+
+        return view('staff.events.edit', compact('event', 'categories'));
+    }
+
+    public function update(StoreEventRequest $request, Event $event): RedirectResponse
+    {
+        $this->authorize('update', $event);
+
+        $this->eventService->update($event, $request->validated());
+
+        return redirect()->route('staff.events.index')->with('status', 'Event updated.');
+    }
 }

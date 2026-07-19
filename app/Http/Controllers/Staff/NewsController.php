@@ -39,4 +39,23 @@ class NewsController extends Controller
 
         return redirect()->route('staff.news.index')->with('status', 'News item saved.');
     }
+
+    public function edit(News $news): View
+    {
+        $this->authorize('update', $news);
+
+        $categories = \App\Models\Category::where('type', \App\Enums\CategoryType::News)->get();
+        $news->load('categories');
+
+        return view('staff.news.edit', compact('news', 'categories'));
+    }
+
+    public function update(StoreNewsRequest $request, News $news): RedirectResponse
+    {
+        $this->authorize('update', $news);
+
+        $this->newsService->update($news, $request->validated());
+
+        return redirect()->route('staff.news.index')->with('status', 'News item updated.');
+    }
 }

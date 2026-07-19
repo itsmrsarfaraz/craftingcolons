@@ -19,4 +19,13 @@ class EventService
 
         return $event;
     }
+
+    public function update(Event $event, array $data): Event
+    {
+        $event->update(\Illuminate\Support\Arr::except($data, 'categories'));
+
+        $event->categories()->sync($data['categories'] ?? []);
+
+        return $event->fresh();
+    }
 }

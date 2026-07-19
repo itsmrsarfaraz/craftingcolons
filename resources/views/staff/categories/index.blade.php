@@ -38,14 +38,28 @@
 
         <div class="card mt-6 divide-y divide-ink-800">
             @forelse ($categories as $category)
-                <div class="flex items-center justify-between px-6 py-3">
-                    <div>
-                        <p class="text-sm font-medium text-white">{{ $category->name }}</p>
-                        <p class="text-xs text-ink-500">{{ $category->type->label() }}</p>
+                <div x-data="{ editing: false }" class="px-6 py-3">
+                    <div x-show="!editing" class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-white">{{ $category->name }}</p>
+                            <p class="text-xs text-ink-500">{{ $category->type->label() }}</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button @click="editing = true" class="text-xs text-ink-400 hover:underline">Rename</button>
+                            <form method="POST" action="{{ route('staff.categories.destroy', $category) }}">
+                                @csrf @method('DELETE')
+                                <button class="text-xs text-red-400 hover:underline">Delete</button>
+                            </form>
+                        </div>
                     </div>
-                    <form method="POST" action="{{ route('staff.categories.destroy', $category) }}">
-                        @csrf @method('DELETE')
-                        <button class="text-xs text-red-400 hover:underline">Delete</button>
+                    <form x-show="editing" x-cloak method="POST" action="{{ route('staff.categories.update', $category) }}"
+                          class="flex items-center gap-2">
+                        @csrf @method('PUT')
+                        <input type="text" name="name" value="{{ $category->name }}" required
+                            class="flex-1 rounded-lg border border-ink-700 bg-ink-800 px-3 py-1.5 text-sm text-white">
+                        <input type="hidden" name="type" value="{{ $category->type->value }}">
+                        <button type="submit" class="btn-primary !px-3 !py-1.5 text-xs">Save</button>
+                        <button type="button" @click="editing = false" class="text-xs text-ink-400 hover:underline">Cancel</button>
                     </form>
                 </div>
             @empty

@@ -24,7 +24,7 @@
 
         <div class="bg-neutral-900 border border-neutral-800 rounded-2xl divide-y divide-neutral-800 overflow-hidden">
             @forelse ($news as $post)
-                <a href="{{ route('staff.news.edit', $post) }}"
+                <a href="{{ route('staff.news.edit', $news) }}" class="block bg-neutral-900 border border-neutral-800 rounded-2xl p-6 hover:border-neutral-700">
                    class="flex items-center justify-between px-6 py-4 hover:bg-neutral-800/40 transition">
                     <div>
                         <p class="font-medium text-neutral-100">{{ $post->title }}</p>
