@@ -14,10 +14,12 @@ use App\Http\Controllers\Cms\NewsController as PublicNewsController;
 use App\Http\Controllers\Cms\EventController as PublicEventController;
 use App\Http\Controllers\Cms\ProjectController as PublicProjectController;
 use App\Http\Controllers\Cms\EventRegistrationController;
+use App\Http\Controllers\Cms\ServiceController as PublicServiceController;
 use App\Http\Controllers\Staff\ArticleController as StaffArticleController;
 use App\Http\Controllers\Staff\NewsController as StaffNewsController;
 use App\Http\Controllers\Staff\EventController as StaffEventController;
 use App\Http\Controllers\Staff\ProjectController as StaffProjectController;
+use App\Http\Controllers\Staff\ServiceController as StaffServiceController;
 use App\Http\Controllers\Employee\AnnouncementFeedController;
 use App\Http\Controllers\Employee\AttendanceController;
 use App\Http\Controllers\Employee\NotificationController;
@@ -38,6 +40,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+
+Route::get('/services', [PublicServiceController::class, 'index'])->name('services.index');
+Route::get('/services/{service:slug}', [PublicServiceController::class, 'show'])->name('services.show');
 
 Route::get('/search', [GlobalSearchController::class, 'index'])->name('search.index');
 Route::get('/search/suggest', [GlobalSearchController::class, 'suggest'])->name('search.suggest');
@@ -208,6 +213,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/projects', [StaffProjectController::class, 'store'])->name('projects.store');
         Route::get('/projects/{project}/edit', [StaffProjectController::class, 'edit'])->name('projects.edit');
         Route::put('/projects/{project}', [StaffProjectController::class, 'update'])->name('projects.update');
+
+        Route::get('/services', [StaffServiceController::class, 'index'])->name('services.index');
+        Route::get('/services/create', [StaffServiceController::class, 'create'])->name('services.create');
+        Route::post('/services', [StaffServiceController::class, 'store'])->name('services.store');
+        Route::get('/services/{service}/edit', [StaffServiceController::class, 'edit'])->name('services.edit');
+        Route::put('/services/{service}', [StaffServiceController::class, 'update'])->name('services.update');
     });
 
     Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {

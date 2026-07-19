@@ -36,30 +36,25 @@
     @endif
 
     <!-- Services -->
-    <section class="section">
-        <div class="text-center sm:text-left" data-reveal>
-            <span class="eyebrow">What we do</span>
-            <h2 class="mt-2 font-display text-2xl font-semibold sm:text-3xl">Services built to ship</h2>
-        </div>
+    <!-- Services -->
+    @if ($services->isNotEmpty())
+        <section class="section">
+            <div class="text-center sm:text-left" data-reveal>
+                <span class="eyebrow">What we do</span>
+                <h2 class="mt-2 font-display text-2xl font-semibold sm:text-3xl">Services built to ship</h2>
+            </div>
 
-        <div class="mt-8 grid gap-5 sm:mt-10 sm:grid-cols-2 lg:grid-cols-4">
-            @php
-                $services = [
-                    ['icon' => '💻', 'title' => 'Web Development', 'body' => 'Laravel-powered platforms, dashboards, and internal tools built to scale.'],
-                    ['icon' => '📱', 'title' => 'Mobile Apps', 'body' => 'Native-feel mobile experiences connected to real backend systems.'],
-                    ['icon' => '🎨', 'title' => 'Product Design', 'body' => 'UI/UX that looks premium and converts, not just wireframes.'],
-                    ['icon' => '🎓', 'title' => 'Tech Training', 'body' => 'Internship and community programs in dev, design, and photography.'],
-                ];
-            @endphp
-            @foreach ($services as $i => $service)
-                <div class="card p-6 transition hover:border-ink-500" data-reveal data-reveal-delay="{{ $i }}">
-                    <span class="text-2xl">{{ $service['icon'] }}</span>
-                    <p class="mt-4 font-semibold text-white">{{ $service['title'] }}</p>
-                    <p class="mt-2 text-sm leading-relaxed text-ink-400">{{ $service['body'] }}</p>
-                </div>
-            @endforeach
-        </div>
-    </section>
+            <div class="mt-8 grid gap-5 sm:mt-10 sm:grid-cols-2 lg:grid-cols-4">
+                @foreach ($services as $i => $service)
+                    <a href="{{ route('services.show', $service->slug) }}" class="card card-hover p-6" data-reveal data-reveal-delay="{{ $i }}">
+                        @if ($service->icon)<span class="text-2xl">{{ $service->icon }}</span>@endif
+                        <p class="mt-4 font-semibold text-white">{{ $service->title }}</p>
+                        <p class="mt-2 text-sm leading-relaxed text-ink-400">{{ $service->short_description }}</p>
+                    </a>
+                @endforeach
+            </div>
+        </section>
+    @endif
 
     <!-- Why Choose Us -->
     <section class="border-y border-ink-800 bg-ink-900/40">

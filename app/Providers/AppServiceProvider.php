@@ -18,6 +18,7 @@ use App\Models\JobApplication;
 use App\Models\JobPosting;
 use App\Models\News;
 use App\Models\Project;
+use App\Models\Service;
 use App\Models\Task;
 use App\Observers\EmployeeObserver;
 use App\Observers\JobApplicationObserver;
@@ -34,6 +35,7 @@ use App\Policies\JobApplicationPolicy;
 use App\Policies\JobPostingPolicy;
 use App\Policies\NewsPolicy;
 use App\Policies\ProjectPolicy;
+use App\Policies\ServicePolicy;
 use App\Policies\TaskPolicy;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
@@ -64,6 +66,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(News::class, NewsPolicy::class);
         Gate::policy(EventModel::class, EventPolicy::class);
         Gate::policy(Project::class, ProjectPolicy::class);
+        Gate::policy(Service::class, ServicePolicy::class);
 
         JobPosting::observe(JobPostingObserver::class);
         JobApplication::observe(JobApplicationObserver::class);

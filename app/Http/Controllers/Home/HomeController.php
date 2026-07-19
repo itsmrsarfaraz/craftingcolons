@@ -8,6 +8,7 @@ use App\Models\Event;
 use App\Models\JobPosting;
 use App\Models\News;
 use App\Models\Project;
+use App\Models\Service;
 use App\Models\Stat;
 use App\Models\Technology;
 use App\Models\Testimonial;
@@ -28,6 +29,7 @@ class HomeController extends Controller
             'latestNews' => News::published()->latest('published_at')->limit(3)->get(),
             'upcomingEvents' => Event::published()->where('starts_at', '>=', now())->orderBy('starts_at')->limit(3)->get(),
             'featuredProjects' => Project::published()->with('media', 'technologies')->latest('published_at')->limit(3)->get(),
+            'services' => Service::published()->limit(4)->get(),
         ]);
     }
 }
