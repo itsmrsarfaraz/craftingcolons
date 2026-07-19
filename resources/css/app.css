@@ -4,6 +4,70 @@
 @source '../../storage/framework/views/*.php';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+
+    /* Brand: warm amber accent against near-black, not generic blue */
+    --color-brand-50: #fff8ed;
+    --color-brand-100: #ffefd1;
+    --color-brand-300: #ffcd7a;
+    --color-brand-400: #ffb545;
+    --color-brand-500: #f9971f;
+    --color-brand-600: #ea7a0e;
+    --color-brand-700: #c25c0c;
+
+    --color-ink-950: #08090b;
+    --color-ink-900: #0e1013;
+    --color-ink-800: #16181d;
+    --color-ink-700: #22252c;
+    --color-ink-600: #33373f;
+    --color-ink-500: #565b66;
+    --color-ink-400: #7a808c;
+    --color-ink-300: #9ea3ad;
+    --color-ink-200: #c6c9d0;
+    --color-ink-100: #e7e8eb;
+
+    --shadow-glow: 0 0 0 1px rgb(255 255 255 / 0.04), 0 8px 24px -8px rgb(0 0 0 / 0.5);
+    --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -12px rgb(0 0 0 / 0.45);
+}
+
+@layer base {
+    body {
+        @apply bg-ink-950 text-ink-100 antialiased;
+        font-feature-settings: "cv11", "ss01";
+    }
+
+    h1, h2, h3 {
+        @apply tracking-tight text-white;
+    }
+}
+
+@layer components {
+    .btn-primary {
+        @apply inline-flex items-center justify-center gap-2 rounded-full bg-brand-500 px-6 py-3
+               text-sm font-semibold text-ink-950 shadow-glow transition
+               hover:bg-brand-400 active:bg-brand-600;
+    }
+
+    .btn-secondary {
+        @apply inline-flex items-center justify-center gap-2 rounded-full border border-ink-600
+               px-6 py-3 text-sm font-semibold text-white transition
+               hover:border-ink-500 hover:bg-ink-800;
+    }
+
+    .card {
+        @apply rounded-2xl border border-ink-700 bg-ink-900 shadow-card;
+    }
+
+    .card-hover {
+        @apply transition hover:border-ink-500 hover:-translate-y-0.5;
+    }
+
+    .eyebrow {
+        @apply text-xs font-semibold uppercase tracking-[0.14em] text-brand-400;
+    }
+
+    .section {
+        @apply mx-auto max-w-6xl px-6 py-20 sm:px-8;
+    }
 }
