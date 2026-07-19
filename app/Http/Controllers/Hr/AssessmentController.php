@@ -12,7 +12,10 @@ use Illuminate\View\View;
 
 class AssessmentController extends Controller
 {
-    public function __construct(private readonly AssessmentService $assessmentService)
+    public function __construct(
+        private readonly AssessmentService $assessmentService,
+        private readonly \App\Services\Settings\SettingsService $settingsService,
+        )
     {
     }
 
@@ -20,7 +23,9 @@ class AssessmentController extends Controller
     {
         $this->authorize('create', Assessment::class);
 
-        return view('hr.assessments.create', compact('jobPosting'));
+        $defaultMaxViolations = $this->settingsService->get('assessment.max_violations_allowed_default', 3);
+
+        return view('hr.assessments.create', compact('jobPosting', 'defaultMaxViolations'));
     }
 
     public function store(StoreAssessmentRequest $request, JobPosting $jobPosting): RedirectResponse

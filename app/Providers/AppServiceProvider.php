@@ -19,6 +19,9 @@ use App\Models\JobPosting;
 use App\Models\News;
 use App\Models\Project;
 use App\Models\Task;
+use App\Observers\EmployeeObserver;
+use App\Observers\JobApplicationObserver;
+use App\Observers\JobPostingObserver;
 use App\Policies\AnnouncementPolicy;
 use App\Policies\ApplicantDocumentPolicy;
 use App\Policies\ArticlePolicy;
@@ -61,6 +64,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(News::class, NewsPolicy::class);
         Gate::policy(EventModel::class, EventPolicy::class);
         Gate::policy(Project::class, ProjectPolicy::class);
+
+        JobPosting::observe(JobPostingObserver::class);
+        JobApplication::observe(JobApplicationObserver::class);
+        Employee::observe(EmployeeObserver::class);
 
         Event::listen(AssessmentGraded::class, SyncJobApplicationStatusFromAssessment::class);
         Event::listen(AnnouncementPublished::class, NotifyAudienceOfAnnouncement::class);

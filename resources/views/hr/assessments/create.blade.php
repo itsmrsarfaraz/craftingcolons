@@ -36,10 +36,15 @@
                     class="w-full rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2">{{ old('instructions') }}</textarea>
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-3 gap-4">
                 <div>
                     <label class="block text-sm text-neutral-300 mb-1">Duration (minutes)</label>
                     <input type="number" name="duration_minutes" value="{{ old('duration_minutes', 60) }}" required
+                        class="w-full rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2">
+                </div>
+                <div>
+                    <label class="block text-sm text-neutral-300 mb-1">Max Violations</label>
+                    <input type="number" name="max_violations_allowed" value="{{ old('max_violations_allowed', $defaultMaxViolations) }}" min="1" max="20"
                         class="w-full rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2">
                 </div>
                 <div>

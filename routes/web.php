@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\ActivityLogController;
+use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Applicant\DocumentController;
 use App\Http\Controllers\Applicant\ProfileController;
 use App\Http\Controllers\Assessments\AttemptController;
@@ -27,6 +29,7 @@ use App\Http\Controllers\Hr\EmployeeOnboardingController;
 use App\Http\Controllers\Hr\GradingController;
 use App\Http\Controllers\Hr\JobPostingController;
 use App\Http\Controllers\Hr\QuestionController;
+use App\Http\Controllers\Search\GlobalSearchController;
 use App\Http\Controllers\Staff\AnnouncementController;
 use App\Http\Controllers\TeamLead\TaskReviewController;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +37,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+Route::get('/search', [GlobalSearchController::class, 'index'])->name('search.index');
+Route::get('/search/suggest', [GlobalSearchController::class, 'suggest'])->name('search.suggest');
 
 Route::get('/articles', [PublicArticleController::class, 'index'])->name('articles.index');
 Route::get('/articles/{article:slug}', [PublicArticleController::class, 'show'])->name('articles.show');
@@ -202,5 +208,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/projects', [StaffProjectController::class, 'store'])->name('projects.store');
         Route::get('/projects/{project}/edit', [StaffProjectController::class, 'edit'])->name('projects.edit');
         Route::put('/projects/{project}', [StaffProjectController::class, 'update'])->name('projects.update');
+    });
+
+    Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/activity-logs', [ActivityLogController::class, 'index'])->name('activity-logs.index');
+        Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
+        Route::post('/settings', [SettingController::class, 'update'])->name('settings.update');
     });
 });
