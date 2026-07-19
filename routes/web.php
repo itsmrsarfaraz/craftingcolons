@@ -23,6 +23,7 @@ use App\Http\Controllers\Employee\AttendanceController;
 use App\Http\Controllers\Employee\NotificationController;
 use App\Http\Controllers\Employee\TaskController;
 use App\Http\Controllers\Employee\TaskReportController;
+use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\Hr\AssessmentController;
 use App\Http\Controllers\Hr\AttemptReviewController;
 use App\Http\Controllers\Hr\EmployeeOnboardingController;
@@ -30,13 +31,13 @@ use App\Http\Controllers\Hr\GradingController;
 use App\Http\Controllers\Hr\JobPostingController;
 use App\Http\Controllers\Hr\QuestionController;
 use App\Http\Controllers\Search\GlobalSearchController;
+use App\Http\Controllers\Seo\SitemapController;
 use App\Http\Controllers\Staff\AnnouncementController;
 use App\Http\Controllers\TeamLead\TaskReviewController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 Route::get('/search', [GlobalSearchController::class, 'index'])->name('search.index');
 Route::get('/search/suggest', [GlobalSearchController::class, 'suggest'])->name('search.suggest');
@@ -106,9 +107,8 @@ Route::middleware('auth')->group(function () {
     
         Route::post('/careers/{jobPosting:slug}/apply', [JobApplicationController::class, 'store'])
             ->name('applications.store');
-        Route::get('/applications', function () {
-            $applications = auth()->user()->jobApplications()->with('jobPosting')->latest()->paginate(10);
-            
+        Route::get('/applications', function (\Illuminate\Http\Request $request) {
+            $applications = $request->user()->jobApplications()->with('jobPosting')->latest()->paginate(10);
             return view('applicant.applications', compact('applications'));
         })->name('applications.index');
 

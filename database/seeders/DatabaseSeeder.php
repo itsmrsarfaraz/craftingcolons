@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             PermissionSeeder::class,
             TechnologySeeder::class,
+            StatSeeder::class,
+            TestimonialSeeder::class,
         ]);
 
         $admin = User::factory()->create([

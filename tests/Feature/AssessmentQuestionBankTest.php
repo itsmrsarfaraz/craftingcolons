@@ -37,6 +37,7 @@ class AssessmentQuestionBankTest extends TestCase
             'title' => 'Backend Assessment',
             'duration_minutes' => 45,
             'passing_marks' => 70,
+            'max_violations_allowed' => 3,
         ]);
 
         $response->assertRedirect();
@@ -54,6 +55,7 @@ class AssessmentQuestionBankTest extends TestCase
             'title' => 'Backend Assessment',
             'duration_minutes' => 45,
             'passing_marks' => 70,
+            'max_violations_allowed' => 3,
         ]);
         $assessment = $posting->fresh()->assessment;
 
@@ -80,6 +82,7 @@ class AssessmentQuestionBankTest extends TestCase
             'title' => 'Backend Assessment',
             'duration_minutes' => 45,
             'passing_marks' => 70,
+            'max_violations_allowed' => 3,
         ]);
         $assessment = $posting->fresh()->assessment;
 

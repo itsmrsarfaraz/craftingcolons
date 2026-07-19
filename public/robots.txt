@@ -1,2 +1,11 @@
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /admin
+Disallow: /hr
+Disallow: /staff
+Disallow: /team-lead
+Disallow: /employee
+Disallow: /applicant
+Disallow: /assessments
+
+Sitemap: https://craftingcolons.com/sitemap.xml
