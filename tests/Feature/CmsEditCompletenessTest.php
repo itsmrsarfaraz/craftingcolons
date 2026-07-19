@@ -59,7 +59,7 @@ class CmsEditCompletenessTest extends TestCase
     public function test_editing_a_published_news_item_does_not_reset_its_publish_timestamp(): void
     {
         $staff = $this->staff();
-        $originalPublishedAt = now()->subDays(5);
+        $originalPublishedAt = now()->subDays(5)->startOfSecond();
         $news = News::create([
             'author_id' => $staff->id,
             'title' => 'Old News',

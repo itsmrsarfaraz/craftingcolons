@@ -54,11 +54,25 @@
                     class="rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2">
             </div>
 
+            <div x-data="{ status: '{{ old('status', 'draft') }}' }">
+                <div x-show="status === 'scheduled'" x-cloak class="mb-4">
+                    <label class="mb-1 block text-sm text-ink-300">Publish Date &amp; Time</label>
+                    <input type="datetime-local" name="published_at" value="{{ old('published_at') }}"
+                        class="w-full rounded-lg border border-ink-700 bg-ink-800 px-3 py-2 text-white">
+                </div>
+
+                <select name="status" x-model="status" class="w-full rounded-lg border border-ink-700 bg-ink-800 px-3 py-2 text-white">
+                    @foreach (\App\Enums\ArticleStatus::cases() as $articleStatus)
+                        <option value="{{ $articleStatus->value }}">{{ $articleStatus->label() }}</option>
+                    @endforeach
+                </select>
+            </div>
+{{-- 
             <select name="status" class="w-full rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2">
                 @foreach (\App\Enums\ArticleStatus::cases() as $status)
                     <option value="{{ $status->value }}">{{ $status->label() }}</option>
                 @endforeach
-            </select>
+            </select> --}}
 
             <button type="submit"
                 class="bg-white text-neutral-950 font-medium rounded-lg px-4 py-2 hover:bg-neutral-200 transition">
