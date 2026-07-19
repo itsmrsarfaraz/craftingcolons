@@ -167,6 +167,9 @@ Route::middleware('auth')->group(function () {
         Route::patch('/applications/{application}/status', [HrJobApplicationController::class, 'updateStatus'])
             ->name('applications.status');
 
+        Route::get('/jobs/{jobPosting}/edit', [JobPostingController::class, 'edit'])->name('jobs.edit');
+        Route::put('/jobs/{jobPosting}', [JobPostingController::class, 'update'])->name('jobs.update');
+
         Route::get('/applications/{application}/onboard', [EmployeeOnboardingController::class, 'create'])
             ->name('onboarding.create');
         Route::post('/applications/{application}/onboard', [EmployeeOnboardingController::class, 'store'])

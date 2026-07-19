@@ -41,6 +41,7 @@
                             </form>
                         @endif
                     </div>
+                    <a href="{{ route('hr.jobs.edit', $posting) }}" class="text-sm text-ink-400 hover:underline">Edit</a>
                 </div>
             @endforeach
         </div>

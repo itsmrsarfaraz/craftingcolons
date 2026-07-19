@@ -42,6 +42,22 @@ class JobPostingController extends Controller
         return redirect()->route('hr.jobs.index')->with('status', "Job posting \"{$posting->title}\" created.");
     }
 
+    public function edit(JobPosting $jobPosting): View
+    {
+        $this->authorize('update', $jobPosting);
+
+        return view('hr.jobs.edit', compact('jobPosting'));
+    }
+
+    public function update(StoreJobPostingRequest $request, JobPosting $jobPosting): RedirectResponse
+    {
+        $this->authorize('update', $jobPosting);
+
+        $this->jobPostingService->update($jobPosting, $request->validated());
+
+        return redirect()->route('hr.jobs.index')->with('status', 'Job posting updated.');
+    }
+
     public function publish(JobPosting $jobPosting): RedirectResponse
     {
         $this->authorize('update', $jobPosting);
