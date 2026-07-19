@@ -9,6 +9,7 @@ use App\Models\JobPosting;
 use App\Models\News;
 use App\Models\Project;
 use App\Models\Stat;
+use App\Models\Technology;
 use App\Models\Testimonial;
 use Illuminate\View\View;
 
@@ -19,6 +20,7 @@ class HomeController extends Controller
         return view('home', [
             'stats' => Stat::ordered()->get(),
             'testimonials' => Testimonial::active()->get(),
+            'technologies' => Technology::orderBy('name')->limit(12)->get(),
             'latestJobs' => JobPosting::where('status', 'published')
                 ->where(fn ($q) => $q->whereNull('deadline')->orWhere('deadline', '>=', now()))
                 ->latest()->limit(3)->get(),

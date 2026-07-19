@@ -80,4 +80,13 @@ class HomePageTest extends TestCase
         $response->assertSee(route('careers.show', $published->slug), false);
         $response->assertDontSee(route('careers.show', $draft->slug), false);
     }
+
+    public function test_home_page_shows_technologies_when_present(): void
+    {
+        \App\Models\Technology::create(['name' => 'Laravel', 'slug' => 'laravel']);
+
+        $response = $this->get(route('home'));
+
+        $response->assertSee('Laravel');
+    }
 }
