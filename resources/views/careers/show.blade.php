@@ -1,34 +1,30 @@
-<!DOCTYPE html>
-<html lang="en" class="h-full bg-neutral-950">
-<head>
-    <meta charset="utf-8">
-    <title>{{ $jobPosting->title }} — Crafting Colons</title>
-    @vite(['resources/css/app.css'])
-</head>
-<body class="min-h-full text-white py-12 px-4">
-    <div class="max-w-2xl mx-auto space-y-6">
-        <div>
-            <h1 class="text-2xl font-semibold">{{ $jobPosting->title }}</h1>
-            <p class="text-neutral-400 text-sm mt-1">
-                {{ $jobPosting->employment_type->label() }} · {{ $jobPosting->department }} · {{ $jobPosting->location ?? 'Remote' }}
-            </p>
+<x-layouts.site :title="$jobPosting->title.' — Crafting Colons'">
+    <section class="section max-w-2xl">
+        <div data-reveal>
+            <a href="{{ route('careers.index') }}" class="text-sm text-ink-400 hover:text-white">← All roles</a>
+            <h1 class="mt-4 font-display text-3xl font-semibold sm:text-4xl">{{ $jobPosting->title }}</h1>
+            <div class="mt-4 flex flex-wrap gap-2">
+                <span class="rounded-full border border-ink-700 px-3 py-1 text-xs text-ink-300">{{ $jobPosting->employment_type->label() }}</span>
+                <span class="rounded-full border border-ink-700 px-3 py-1 text-xs text-ink-300">{{ $jobPosting->department }}</span>
+                <span class="rounded-full border border-ink-700 px-3 py-1 text-xs text-ink-300">{{ $jobPosting->location ?? 'Remote' }}</span>
+            </div>
         </div>
 
         @if (session('status'))
-            <div class="text-sm text-emerald-400 bg-emerald-950/40 border border-emerald-900 rounded-lg px-4 py-2">
+            <div class="mt-6 rounded-lg border border-emerald-900 bg-emerald-950/40 px-4 py-2 text-sm text-emerald-400">
                 {{ session('status') }}
             </div>
         @endif
 
         @if ($errors->any())
-            <div class="text-sm text-red-400 bg-red-950/50 border border-red-900 rounded-lg px-4 py-2 space-y-1">
+            <div class="mt-6 space-y-1 rounded-lg border border-red-900 bg-red-950/50 px-4 py-2 text-sm text-red-400">
                 @foreach ($errors->all() as $error)
                     <p>{{ $error }}</p>
                 @endforeach
             </div>
         @endif
 
-        <div class="prose prose-invert max-w-none">
+        <div class="prose prose-invert mt-8 max-w-none" data-reveal data-reveal-delay="1">
             <h3>Description</h3>
             <p>{{ $jobPosting->description }}</p>
 
@@ -43,34 +39,36 @@
             @endif
         </div>
 
-        @auth
-            @if (auth()->user()->hasRole('applicant') && $jobPosting->isOpen())
-                <form method="POST" action="{{ route('applicant.applications.store', $jobPosting->slug) }}"
-                      class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 space-y-4">
-                    @csrf
-                    <div>
-                        <label class="block text-sm text-neutral-300 mb-1">Select CV / Document</label>
-                        <select name="applicant_document_id" required
-                            class="w-full rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2">
-                            @foreach (auth()->user()->applicantDocuments as $doc)
-                                <option value="{{ $doc->id }}">{{ $doc->type->label() }} — {{ $doc->original_name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm text-neutral-300 mb-1">Cover Letter (optional)</label>
-                        <textarea name="cover_letter" rows="4"
-                            class="w-full rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2"></textarea>
-                    </div>
-                    <button type="submit"
-                        class="bg-white text-neutral-950 font-medium rounded-lg px-4 py-2 hover:bg-neutral-200 transition">
-                        Submit Application
-                    </button>
-                </form>
-            @endif
-        @else
-            <a href="{{ route('login') }}" class="underline text-sm">Log in to apply</a>
-        @endauth
-    </div>
-</body>
-</html>
+        <div class="card mt-10 p-6" data-reveal data-reveal-delay="2">
+            @auth
+                @if (auth()->user()->hasRole('applicant') && $jobPosting->isOpen())
+                    <form method="POST" action="{{ route('applicant.applications.store', $jobPosting->slug) }}" class="space-y-4">
+                        @csrf
+                        <div>
+                            <label class="mb-1 block text-sm text-ink-300">Select CV / Document</label>
+                            <select name="applicant_document_id" required
+                                class="w-full rounded-lg border border-ink-700 bg-ink-800 px-3 py-2 text-white">
+                                @foreach (auth()->user()->applicantDocuments as $doc)
+                                    <option value="{{ $doc->id }}">{{ $doc->type->label() }} — {{ $doc->original_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label class="mb-1 block text-sm text-ink-300">Cover Letter (optional)</label>
+                            <textarea name="cover_letter" rows="4"
+                                class="w-full rounded-lg border border-ink-700 bg-ink-800 px-3 py-2 text-white"></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary w-full sm:w-auto">Submit Application</button>
+                    </form>
+                @elseif (! $jobPosting->isOpen())
+                    <p class="text-ink-400">This position is no longer accepting applications.</p>
+                @endif
+            @else
+                <div class="text-center">
+                    <p class="text-ink-400">Log in as an applicant to apply for this role.</p>
+                    <a href="{{ route('login') }}" class="btn-primary mt-4">Log In to Apply</a>
+                </div>
+            @endauth
+        </div>
+    </section>
+</x-layouts.site>

@@ -1,52 +1,53 @@
-<!DOCTYPE html>
-<html lang="en" class="h-full bg-neutral-950">
-<head>
-    <meta charset="utf-8">
-    <title>Our Work — Crafting Colons</title>
-    @vite(['resources/css/app.css'])
-</head>
-<body class="min-h-full text-white py-12 px-4">
-    <div class="max-w-4xl mx-auto space-y-8">
-        <div>
-            <h1 class="text-3xl font-semibold">Our Work</h1>
-            <p class="text-neutral-400 mt-1">Projects and platforms we've built.</p>
+<x-layouts.site :title="'Our Work — Crafting Colons'">
+    <section class="section">
+        <div class="text-center" data-reveal>
+            <span class="eyebrow">Portfolio</span>
+            <h1 class="mt-2 font-display text-3xl font-semibold sm:text-4xl">Our Work</h1>
+            <p class="mx-auto mt-3 max-w-lg text-ink-400">Projects and platforms we've built.</p>
         </div>
 
-        <div class="flex gap-2 flex-wrap">
+        <div class="mt-8 flex flex-wrap justify-center gap-2" data-reveal data-reveal-delay="1">
             <a href="{{ route('projects.index') }}"
-               class="text-xs rounded-full px-3 py-1.5 {{ ! request('type') ? 'bg-white text-neutral-950' : 'bg-neutral-800 text-neutral-300' }}">
+               class="rounded-full px-4 py-1.5 text-xs font-medium {{ ! request('type') ? 'bg-brand-500 text-ink-950' : 'bg-ink-800 text-ink-300' }}">
                 All
             </a>
             @foreach ($types as $type)
                 <a href="{{ route('projects.index', ['type' => $type->value]) }}"
-                   class="text-xs rounded-full px-3 py-1.5 {{ request('type') === $type->value ? 'bg-white text-neutral-950' : 'bg-neutral-800 text-neutral-300' }}">
+                   class="rounded-full px-4 py-1.5 text-xs font-medium {{ request('type') === $type->value ? 'bg-brand-500 text-ink-950' : 'bg-ink-800 text-ink-300' }}">
                     {{ $type->label() }}
                 </a>
             @endforeach
         </div>
 
-        <div class="grid sm:grid-cols-2 gap-4">
-            @foreach ($projects as $project)
+        <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            @forelse ($projects as $i => $project)
                 <a href="{{ route('projects.show', $project->slug) }}"
-                   class="block bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden hover:border-neutral-700 transition">
-                    @if ($project->featuredImage())
-                        <img src="{{ $project->featuredImage()->url() }}" class="w-full h-40 object-cover" alt="{{ $project->title }}">
-                    @endif
-                    <div class="p-6">
-                        <span class="text-xs uppercase tracking-wide text-neutral-500">{{ $project->project_type->label() }}</span>
-                        <h2 class="text-lg font-semibold mt-1">{{ $project->title }}</h2>
-                        <p class="text-sm text-neutral-400 mt-2">{{ Str::limit($project->summary, 100) }}</p>
-                        <div class="flex gap-2 flex-wrap mt-3">
-                            @foreach ($project->technologies->take(4) as $tech)
-                                <span class="text-xs bg-neutral-800 rounded-full px-2 py-1">{{ $tech->name }}</span>
+                   class="card card-hover group overflow-hidden" data-reveal data-reveal-delay="{{ min($i, 4) }}">
+                    <div class="aspect-[4/3] overflow-hidden bg-ink-800">
+                        @if ($project->featuredImage())
+                            <img src="{{ $project->featuredImage()->url() }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" alt="{{ $project->title }}">
+                        @else
+                            <div class="flex h-full items-center justify-center text-ink-600">
+                                <span class="font-display text-2xl">{{ Str::limit($project->title, 1, '') }}</span>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="p-5">
+                        <span class="text-xs font-medium uppercase tracking-wide text-brand-400">{{ $project->project_type->label() }}</span>
+                        <h2 class="mt-1 font-semibold text-white">{{ $project->title }}</h2>
+                        <p class="mt-2 text-sm text-ink-400">{{ Str::limit($project->summary, 90) }}</p>
+                        <div class="mt-3 flex flex-wrap gap-2">
+                            @foreach ($project->technologies->take(3) as $tech)
+                                <span class="rounded-full bg-ink-800 px-2 py-1 text-xs text-ink-300">{{ $tech->name }}</span>
                             @endforeach
                         </div>
                     </div>
                 </a>
-            @endforeach
+            @empty
+                <div class="card p-10 text-center text-ink-500 sm:col-span-2 lg:col-span-3">No projects in this category yet.</div>
+            @endforelse
         </div>
 
-        {{ $projects->links() }}
-    </div>
-</body>
-</html>
+        <div class="mt-8">{{ $projects->links() }}</div>
+    </section>
+</x-layouts.site>
