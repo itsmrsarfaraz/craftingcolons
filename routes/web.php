@@ -10,10 +10,12 @@ use App\Http\Controllers\Careers\JobController;
 use App\Http\Controllers\Cms\ArticleController as PublicArticleController;
 use App\Http\Controllers\Cms\NewsController as PublicNewsController;
 use App\Http\Controllers\Cms\EventController as PublicEventController;
+use App\Http\Controllers\Cms\ProjectController as PublicProjectController;
 use App\Http\Controllers\Cms\EventRegistrationController;
 use App\Http\Controllers\Staff\ArticleController as StaffArticleController;
 use App\Http\Controllers\Staff\NewsController as StaffNewsController;
 use App\Http\Controllers\Staff\EventController as StaffEventController;
+use App\Http\Controllers\Staff\ProjectController as StaffProjectController;
 use App\Http\Controllers\Employee\AnnouncementFeedController;
 use App\Http\Controllers\Employee\AttendanceController;
 use App\Http\Controllers\Employee\NotificationController;
@@ -41,6 +43,9 @@ Route::get('/news/{news:slug}', [PublicNewsController::class, 'show'])->name('ne
 
 Route::get('/events', [PublicEventController::class, 'index'])->name('events.index');
 Route::get('/events/{event:slug}', [PublicEventController::class, 'show'])->name('events.show');
+
+Route::get('/portfolio', [PublicProjectController::class, 'index'])->name('projects.index');
+Route::get('/portfolio/{project:slug}', [PublicProjectController::class, 'show'])->name('projects.show');
 
 Route::middleware('auth')->post('/events/{event:slug}/register', [EventRegistrationController::class, 'store'])
     ->name('events.register');
@@ -191,5 +196,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/events', [StaffEventController::class, 'index'])->name('events.index');
         Route::get('/events/create', [StaffEventController::class, 'create'])->name('events.create');
         Route::post('/events', [StaffEventController::class, 'store'])->name('events.store');
+
+        Route::get('/projects', [StaffProjectController::class, 'index'])->name('projects.index');
+        Route::get('/projects/create', [StaffProjectController::class, 'create'])->name('projects.create');
+        Route::post('/projects', [StaffProjectController::class, 'store'])->name('projects.store');
+        Route::get('/projects/{project}/edit', [StaffProjectController::class, 'edit'])->name('projects.edit');
+        Route::put('/projects/{project}', [StaffProjectController::class, 'update'])->name('projects.update');
     });
 });

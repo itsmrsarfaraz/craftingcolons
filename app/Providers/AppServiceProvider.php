@@ -17,6 +17,7 @@ use App\Models\Event as EventModel;
 use App\Models\JobApplication;
 use App\Models\JobPosting;
 use App\Models\News;
+use App\Models\Project;
 use App\Models\Task;
 use App\Policies\AnnouncementPolicy;
 use App\Policies\ApplicantDocumentPolicy;
@@ -29,6 +30,7 @@ use App\Policies\EventPolicy;
 use App\Policies\JobApplicationPolicy;
 use App\Policies\JobPostingPolicy;
 use App\Policies\NewsPolicy;
+use App\Policies\ProjectPolicy;
 use App\Policies\TaskPolicy;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
@@ -58,6 +60,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Article::class, ArticlePolicy::class);
         Gate::policy(News::class, NewsPolicy::class);
         Gate::policy(EventModel::class, EventPolicy::class);
+        Gate::policy(Project::class, ProjectPolicy::class);
 
         Event::listen(AssessmentGraded::class, SyncJobApplicationStatusFromAssessment::class);
         Event::listen(AnnouncementPublished::class, NotifyAudienceOfAnnouncement::class);
