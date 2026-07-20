@@ -1,129 +1,90 @@
-<!DOCTYPE html>
-<html lang="en" class="h-full bg-neutral-950">
-<head>
-    <meta charset="utf-8">
-    <title>My Profile — Crafting Colons</title>
-    @vite(['resources/css/app.css'])
-</head>
-<body class="min-h-full text-white py-12 px-4">
-    <div class="max-w-2xl mx-auto space-y-8">
+<x-layouts.app :title="'My Profile — Crafting Colons'">
+    <div class="mx-auto max-w-2xl space-y-8">
         <div>
-            <h1 class="text-2xl font-semibold">My Profile</h1>
-            <p class="text-neutral-400 text-sm">Keep this up to date before applying for a role.</p>
+            <h1 class="font-display text-2xl font-semibold text-white">My Profile</h1>
+            <p class="text-sm text-ink-400">Keep this up to date before applying for a role.</p>
         </div>
 
         @if (session('status'))
-            <div class="text-sm text-emerald-400 bg-emerald-950/40 border border-emerald-900 rounded-lg px-4 py-2">
+            <div class="rounded-lg border border-emerald-900 bg-emerald-950/40 px-4 py-2 text-sm text-emerald-400">
                 {{ session('status') }}
             </div>
         @endif
 
         @if ($errors->any())
-            <div class="text-sm text-red-400 bg-red-950/50 border border-red-900 rounded-lg px-4 py-2 space-y-1">
+            <div class="space-y-1 rounded-lg border border-red-900 bg-red-950/50 px-4 py-2 text-sm text-red-400">
                 @foreach ($errors->all() as $error)
                     <p>{{ $error }}</p>
                 @endforeach
             </div>
         @endif
 
-        {{-- Profile fields --}}
-        <form method="POST" action="{{ route('applicant.profile.update') }}"
-              class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 space-y-4">
+        <form method="POST" action="{{ route('applicant.profile.update') }}" class="card space-y-4 p-6">
             @csrf
             @method('PUT')
 
-            <div>
-                <label class="block text-sm text-neutral-300 mb-1">Headline</label>
-                <input type="text" name="headline" value="{{ old('headline', $profile?->headline) }}"
-                    placeholder="e.g. Backend Engineer"
-                    class="w-full rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2">
-            </div>
+            <input type="text" name="headline" value="{{ old('headline', $profile?->headline) }}" placeholder="e.g. Backend Engineer"
+                class="w-full rounded-lg border border-ink-700 bg-ink-800 px-3 py-2 text-white">
 
             <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm text-neutral-300 mb-1">Phone</label>
-                    <input type="text" name="phone" value="{{ old('phone', $profile?->phone) }}"
-                        class="w-full rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2">
-                </div>
-                <div>
-                    <label class="block text-sm text-neutral-300 mb-1">City</label>
-                    <input type="text" name="city" value="{{ old('city', $profile?->city) }}"
-                        class="w-full rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2">
-                </div>
+                <input type="text" name="phone" value="{{ old('phone', $profile?->phone) }}" placeholder="Phone"
+                    class="rounded-lg border border-ink-700 bg-ink-800 px-3 py-2 text-white">
+                <input type="text" name="city" value="{{ old('city', $profile?->city) }}" placeholder="City"
+                    class="rounded-lg border border-ink-700 bg-ink-800 px-3 py-2 text-white">
             </div>
 
-            <div>
-                <label class="block text-sm text-neutral-300 mb-1">Address</label>
-                <input type="text" name="address" value="{{ old('address', $profile?->address) }}"
-                    class="w-full rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2">
-            </div>
+            <input type="text" name="address" value="{{ old('address', $profile?->address) }}" placeholder="Address"
+                class="w-full rounded-lg border border-ink-700 bg-ink-800 px-3 py-2 text-white">
 
-            <div>
-                <label class="block text-sm text-neutral-300 mb-1">Portfolio URL</label>
-                <input type="url" name="portfolio_url" value="{{ old('portfolio_url', $profile?->portfolio_url) }}"
-                    placeholder="https://..."
-                    class="w-full rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2">
-            </div>
+            <input type="url" name="portfolio_url" value="{{ old('portfolio_url', $profile?->portfolio_url) }}" placeholder="https://your-portfolio.com"
+                class="w-full rounded-lg border border-ink-700 bg-ink-800 px-3 py-2 text-white">
 
-            <div>
-                <label class="block text-sm text-neutral-300 mb-1">Bio</label>
-                <textarea name="bio" rows="4"
-                    class="w-full rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2">{{ old('bio', $profile?->bio) }}</textarea>
-            </div>
+            <textarea name="bio" rows="4" placeholder="Bio"
+                class="w-full rounded-lg border border-ink-700 bg-ink-800 px-3 py-2 text-white">{{ old('bio', $profile?->bio) }}</textarea>
 
-            <button type="submit"
-                class="bg-white text-neutral-950 font-medium rounded-lg px-4 py-2 hover:bg-neutral-200 transition">
-                Save Profile
-            </button>
+            <button type="submit" class="btn-primary">Save Profile</button>
         </form>
 
-        {{-- Documents --}}
-        <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 space-y-4">
-            <h2 class="text-lg font-semibold">Documents</h2>
+        <div class="card space-y-4 p-6">
+            <h2 class="text-lg font-semibold text-white">Documents</h2>
 
             <ul class="space-y-2">
                 @forelse ($documents as $document)
-                    <li class="flex items-center justify-between bg-neutral-800/60 rounded-lg px-4 py-2 text-sm">
+                    <li class="flex items-center justify-between rounded-lg bg-ink-800/60 px-4 py-2 text-sm">
                         <div>
-                            <span class="font-medium">{{ $document->type->label() }}</span>
-                            <span class="text-neutral-400 ml-2">{{ $document->original_name }}</span>
+                            <span class="font-medium text-white">{{ $document->type->label() }}</span>
+                            <span class="ml-2 text-ink-400">{{ $document->original_name }}</span>
                         </div>
                         <div class="flex items-center gap-3">
-                            <a href="{{ route('applicant.documents.download', $document) }}" class="underline">Download</a>
+                            <a href="{{ route('applicant.documents.download', $document) }}" class="text-brand-400 hover:underline">Download</a>
                             <form method="POST" action="{{ route('applicant.documents.destroy', $document) }}">
-                                @csrf
-                                @method('DELETE')
-                                <button class="text-red-400 underline">Delete</button>
+                                @csrf @method('DELETE')
+                                <button class="text-red-400 hover:underline">Delete</button>
                             </form>
                         </div>
                     </li>
                 @empty
-                    <p class="text-neutral-500 text-sm">No documents uploaded yet.</p>
+                    <p class="text-sm text-ink-500">No documents uploaded yet.</p>
                 @endforelse
             </ul>
 
             <form method="POST" action="{{ route('applicant.documents.store') }}" enctype="multipart/form-data"
-                  class="flex items-end gap-3 pt-4 border-t border-neutral-800">
+                  class="flex flex-col gap-3 border-t border-ink-800 pt-4 sm:flex-row sm:items-end">
                 @csrf
                 <div>
-                    <label class="block text-sm text-neutral-300 mb-1">Type</label>
-                    <select name="type" class="rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2">
+                    <label class="mb-1 block text-sm text-ink-300">Type</label>
+                    <select name="type" class="rounded-lg border border-ink-700 bg-ink-800 px-3 py-2 text-white">
                         @foreach (\App\Enums\DocumentType::cases() as $type)
                             <option value="{{ $type->value }}">{{ $type->label() }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="flex-1">
-                    <label class="block text-sm text-neutral-300 mb-1">File (PDF/DOC, max 5MB)</label>
-                    <input type="file" name="file" required
-                        class="w-full text-sm text-neutral-300">
+                    <label class="mb-1 block text-sm text-ink-300">File (PDF/DOC, max 5MB)</label>
+                    <input type="file" name="file" required class="w-full text-sm text-ink-300">
                 </div>
-                <button type="submit"
-                    class="bg-white text-neutral-950 font-medium rounded-lg px-4 py-2 hover:bg-neutral-200 transition">
-                    Upload
-                </button>
+                <button type="submit" class="btn-primary">Upload</button>
             </form>
         </div>
     </div>
-</body>
-</html>
+</x-layouts.app>

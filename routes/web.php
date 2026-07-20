@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Applicant\DocumentController;
 use App\Http\Controllers\Applicant\ProfileController;
 use App\Http\Controllers\Assessments\AttemptController;
@@ -238,5 +239,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/activity-logs', [ActivityLogController::class, 'index'])->name('activity-logs.index');
         Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
         Route::post('/settings', [SettingController::class, 'update'])->name('settings.update');
+        Route::get('/users', [UserController::class, 'index'])->name('users.index');
+        Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+        Route::post('/users', [UserController::class, 'store'])->name('users.store');
+        Route::patch('/users/{user}/role', [UserController::class, 'updateRole'])->name('users.role');
     });
 });

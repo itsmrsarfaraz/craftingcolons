@@ -73,6 +73,7 @@
                 $groups[] = $renderGroup('Administration', [
                     $link('admin.activity-logs.index', 'Activity Log', '📊'),
                     $link('admin.settings.index', 'Settings', '⚙️'),
+                    $link('admin.users.index', 'Users', '👥'),
                 ]);
             }
         @endphp

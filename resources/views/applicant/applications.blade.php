@@ -1,35 +1,27 @@
-<!DOCTYPE html>
-<html lang="en" class="h-full bg-neutral-950">
-<head>
-    <meta charset="utf-8">
-    <title>My Applications — Crafting Colons</title>
-    @vite(['resources/css/app.css'])
-</head>
-<body class="min-h-full text-white py-12 px-4">
-    <div class="max-w-2xl mx-auto space-y-6">
-        <h1 class="text-2xl font-semibold">My Applications</h1>
+<x-layouts.app :title="'My Applications — Crafting Colons'">
+    <div class="mx-auto max-w-2xl">
+        <h1 class="font-display text-2xl font-semibold text-white">My Applications</h1>
 
         @if (session('status'))
-            <div class="text-sm text-emerald-400 bg-emerald-950/40 border border-emerald-900 rounded-lg px-4 py-2">
+            <div class="mt-4 rounded-lg border border-emerald-900 bg-emerald-950/40 px-4 py-2 text-sm text-emerald-400">
                 {{ session('status') }}
             </div>
         @endif
 
-        <div class="space-y-3">
+        <div class="card mt-6 divide-y divide-ink-800">
             @forelse ($applications as $application)
-                <div class="bg-neutral-900 border border-neutral-800 rounded-xl p-4 flex items-center justify-between">
+                <div class="flex items-center justify-between px-6 py-4">
                     <div>
-                        <p class="font-medium">{{ $application->jobPosting->title }}</p>
-                        <p class="text-xs text-neutral-400">Applied {{ $application->applied_at->diffForHumans() }}</p>
+                        <p class="font-medium text-white">{{ $application->jobPosting->title }}</p>
+                        <p class="text-xs text-ink-500">Applied {{ $application->applied_at->diffForHumans() }}</p>
                     </div>
-                    <span class="text-xs uppercase tracking-wide bg-neutral-800 rounded-full px-3 py-1">
+                    <span class="rounded-full bg-ink-800 px-3 py-1 text-xs uppercase tracking-wide text-ink-300">
                         {{ $application->status->label() }}
                     </span>
                 </div>
             @empty
-                <p class="text-neutral-500">You haven't applied to any positions yet.</p>
+                <p class="px-6 py-4 text-sm text-ink-500">You haven't applied to any positions yet.</p>
             @endforelse
         </div>
     </div>
-</body>
-</html>
+</x-layouts.app>

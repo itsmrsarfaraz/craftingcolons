@@ -1,27 +1,27 @@
-<x-layouts.app :title="'Applications — '.$jobPosting->title">
-    <div class="max-w-2xl mx-auto space-y-6">
-        <div>
-            <h1 class="text-2xl font-semibold">{{ $attempt->candidate->name }}</h1>
-            <p class="text-ink-400 text-sm">{{ $attempt->assessment->title }} · {{ $attempt->status->label() }}</p>
+<x-layouts.app :title="'Attempt Review — Crafting Colons'">
+    <div class="mx-auto max-w-2xl">
+        <h1 class="font-display text-2xl font-semibold text-white">{{ $attempt->candidate->name }}</h1>
+        <p class="mt-1 text-sm text-ink-400">{{ $attempt->assessment->title }} · {{ $attempt->status->label() }}</p>
+
+        <div class="card mt-6 grid grid-cols-2 gap-4 p-6 text-sm">
+            <div><span class="text-ink-500">IP Address:</span> <span class="text-white">{{ $attempt->ip_address }}</span></div>
+            <div><span class="text-ink-500">Started:</span> <span class="text-white">{{ $attempt->started_at->format('M j, Y g:i A') }}</span></div>
+            <div><span class="text-ink-500">Submitted:</span> <span class="text-white">{{ $attempt->submitted_at?->format('M j, Y g:i A') ?? '—' }}</span></div>
+            <div><span class="text-ink-500">Violations:</span> <span class="text-white">{{ $attempt->violation_count }} / {{ $attempt->max_violations_allowed }}</span></div>
         </div>
 
-        <div class="bg-ink-900 border border-ink-800 rounded-2xl p-6 grid grid-cols-2 gap-4 text-sm">
-            <div><span class="text-ink-500">IP Address:</span> {{ $attempt->ip_address }}</div>
-            <div><span class="text-ink-500">Started:</span> {{ $attempt->started_at->format('M j, Y g:i A') }}</div>
-            <div><span class="text-ink-500">Submitted:</span> {{ $attempt->submitted_at?->format('M j, Y g:i A') ?? '—' }}</div>
-            <div><span class="text-ink-500">Violations:</span> {{ $attempt->violation_count }} / {{ $attempt->max_violations_allowed }}</div>
-        </div>
-
-        <div class="bg-ink-900 border border-ink-800 rounded-2xl p-6">
-            <h2 class="text-lg font-semibold mb-3">Violation Log</h2>
+        <div class="card mt-6 p-6">
+            <h2 class="mb-3 text-lg font-semibold text-white">Violation Log</h2>
             @forelse ($attempt->violations as $violation)
-                <div class="flex items-center justify-between py-2 border-b border-ink-800 last:border-0 text-sm">
-                    <span>{{ $violation->type->label() }}</span>
+                <div class="flex items-center justify-between border-b border-ink-800 py-2 text-sm last:border-0">
+                    <span class="text-white">{{ $violation->type->label() }}</span>
                     <span class="text-ink-500">{{ $violation->occurred_at->format('g:i:s A') }}</span>
                 </div>
             @empty
-                <p class="text-ink-500 text-sm">No violations recorded.</p>
+                <p class="text-sm text-ink-500">No violations recorded.</p>
             @endforelse
         </div>
+
+        <a href="{{ route('hr.grading.show', $attempt) }}" class="btn-primary mt-6 inline-block">Grade This Attempt</a>
     </div>
 </x-layouts.app>
