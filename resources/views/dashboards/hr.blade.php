@@ -1,14 +1,19 @@
-<!DOCTYPE html>
-<html lang="en" class="h-full bg-neutral-950">
-<head><meta charset="utf-8"><title>Dashboard</title>@vite(['resources/css/app.css'])</head>
-<body class="h-full flex items-center justify-center text-white">
-    <div class="text-center">
-        <h1 class="text-2xl font-semibold capitalize">hr Dashboard</h1>
-        <p class="text-neutral-400 mt-2">Signed in as {{ auth()->user()->name }}</p>
-        <form method="POST" action="{{ route('logout') }}" class="mt-6">
-            @csrf
-            <button class="text-sm underline text-neutral-400">Logout</button>
-        </form>
+<x-layouts.app :title="'HR Dashboard — Crafting Colons'">
+    <div class="mx-auto max-w-4xl">
+        <h1 class="font-display text-2xl font-semibold text-white">HR Overview</h1>
+        <p class="mt-1 text-sm text-ink-400">Signed in as {{ auth()->user()->name }}</p>
+
+        <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <a href="{{ route('hr.jobs.index') }}" class="card card-hover p-6">
+                <span class="text-2xl">💼</span>
+                <p class="mt-3 font-semibold text-white">Job Postings</p>
+                <p class="mt-1 text-sm text-ink-400">Create and manage open roles.</p>
+            </a>
+            <a href="{{ route('hr.jobs.create') }}" class="card card-hover p-6">
+                <span class="text-2xl">➕</span>
+                <p class="mt-3 font-semibold text-white">Post a New Job</p>
+                <p class="mt-1 text-sm text-ink-400">Start a fresh recruitment listing.</p>
+            </a>
+        </div>
     </div>
-</body>
-</html>
+</x-layouts.app>
