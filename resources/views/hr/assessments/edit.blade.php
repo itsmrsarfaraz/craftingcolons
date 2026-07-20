@@ -1,15 +1,8 @@
-<!DOCTYPE html>
-<html lang="en" class="h-full bg-neutral-950">
-<head>
-    <meta charset="utf-8">
-    <title>{{ $assessment->title }} — Crafting Colons</title>
-    @vite(['resources/css/app.css'])
-</head>
-<body class="min-h-full text-white py-12 px-4">
+<x-layouts.app :title="'Edit — '.$jobPosting->title">
     <div class="max-w-3xl mx-auto space-y-6">
         <div>
             <h1 class="text-2xl font-semibold">{{ $assessment->title }}</h1>
-            <p class="text-neutral-400 text-sm mt-1">
+            <p class="text-ink-400 text-sm mt-1">
                 {{ $assessment->duration_minutes }} min · Passing: {{ $assessment->passing_marks }}% ·
                 Total marks: {{ $assessment->total_marks }}
             </p>
@@ -31,10 +24,10 @@
 
         <div class="space-y-3">
             @foreach ($assessment->questions as $question)
-                <div x-data="{ editing: false }" class="bg-neutral-900 border border-neutral-800 rounded-xl p-4">
+                <div x-data="{ editing: false }" class="bg-ink-900 border border-ink-800 rounded-xl p-4">
                     <div x-show="!editing">
                         <div class="flex items-center justify-between">
-                            <span class="text-xs uppercase tracking-wide text-neutral-400">
+                            <span class="text-xs uppercase tracking-wide text-ink-400">
                                 {{ $question->type->label() }} · {{ $question->marks }} marks
                             </span>
                             <div class="flex gap-3">
@@ -50,7 +43,7 @@
                         @if ($question->type->usesOptions())
                             <ul class="mt-3 space-y-1 text-sm">
                                 @foreach ($question->options as $option)
-                                    <li class="{{ $option->is_correct ? 'text-emerald-400' : 'text-neutral-400' }}">
+                                    <li class="{{ $option->is_correct ? 'text-emerald-400' : 'text-ink-400' }}">
                                         {{ $option->is_correct ? '✓' : '○' }} {{ $option->label }}
                                     </li>
                                 @endforeach
@@ -63,25 +56,25 @@
                         <input type="hidden" name="type" value="{{ $question->type->value }}">
 
                         <textarea name="prompt" rows="2" required
-                            class="w-full rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2">{{ $question->prompt }}</textarea>
+                            class="w-full rounded-lg bg-ink-800 border border-ink-700 text-white px-3 py-2">{{ $question->prompt }}</textarea>
 
                         <input type="number" name="marks" value="{{ $question->marks }}" min="1" required
-                            class="w-24 rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2">
+                            class="w-24 rounded-lg bg-ink-800 border border-ink-700 text-white px-3 py-2">
 
                         @if ($question->type->usesOptions())
                             @foreach ($question->options as $index => $option)
                                 <div class="flex items-center gap-2">
                                     <input type="checkbox" name="options[{{ $index }}][is_correct]" value="1" {{ $option->is_correct ? 'checked' : '' }}
-                                        class="rounded border-neutral-700 bg-neutral-800">
+                                        class="rounded border-ink-700 bg-ink-800">
                                     <input type="text" name="options[{{ $index }}][label]" value="{{ $option->label }}"
-                                        class="flex-1 rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2">
+                                        class="flex-1 rounded-lg bg-ink-800 border border-ink-700 text-white px-3 py-2">
                                 </div>
                             @endforeach
                         @endif
 
                         <div class="flex gap-2">
-                            <button type="submit" class="text-xs bg-white text-neutral-950 rounded-lg px-3 py-1.5">Save</button>
-                            <button type="button" @click="editing = false" class="text-xs underline text-neutral-400">Cancel</button>
+                            <button type="submit" class="text-xs bg-white text-ink-950 rounded-lg px-3 py-1.5">Save</button>
+                            <button type="button" @click="editing = false" class="text-xs underline text-ink-400">Cancel</button>
                         </div>
                     </form>
                 </div>
@@ -89,16 +82,16 @@
         </div>
 
         {{-- Add question form --}}
-        <div x-data="{ type: 'mcq' }" class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 space-y-4">
+        <div x-data="{ type: 'mcq' }" class="bg-ink-900 border border-ink-800 rounded-2xl p-6 space-y-4">
             <h2 class="text-lg font-semibold">Add Question</h2>
 
             <form method="POST" action="{{ route('hr.questions.store', $assessment) }}" class="space-y-4">
                 @csrf
 
                 <div>
-                    <label class="block text-sm text-neutral-300 mb-1">Type</label>
+                    <label class="block text-sm text-ink-300 mb-1">Type</label>
                     <select name="type" x-model="type"
-                        class="w-full rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2">
+                        class="w-full rounded-lg bg-ink-800 border border-ink-700 text-white px-3 py-2">
                         @foreach (\App\Enums\QuestionType::cases() as $qType)
                             <option value="{{ $qType->value }}">{{ $qType->label() }}</option>
                         @endforeach
@@ -106,42 +99,41 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm text-neutral-300 mb-1">Prompt</label>
+                    <label class="block text-sm text-ink-300 mb-1">Prompt</label>
                     <textarea name="prompt" rows="3" required
-                        class="w-full rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2"></textarea>
+                        class="w-full rounded-lg bg-ink-800 border border-ink-700 text-white px-3 py-2"></textarea>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm text-neutral-300 mb-1">Marks</label>
+                        <label class="block text-sm text-ink-300 mb-1">Marks</label>
                         <input type="number" name="marks" value="1" min="1" required
-                            class="w-full rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2">
+                            class="w-full rounded-lg bg-ink-800 border border-ink-700 text-white px-3 py-2">
                     </div>
                     <div x-show="type === 'coding'">
-                        <label class="block text-sm text-neutral-300 mb-1">Language</label>
+                        <label class="block text-sm text-ink-300 mb-1">Language</label>
                         <input type="text" name="language" placeholder="e.g. php, python"
-                            class="w-full rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2">
+                            class="w-full rounded-lg bg-ink-800 border border-ink-700 text-white px-3 py-2">
                     </div>
                 </div>
 
                 <div x-show="['mcq', 'true_false', 'multiple_select'].includes(type)" class="space-y-2">
-                    <label class="block text-sm text-neutral-300 mb-1">Options</label>
+                    <label class="block text-sm text-ink-300 mb-1">Options</label>
                     <template x-for="i in 4" :key="i">
                         <div class="flex items-center gap-2">
                             <input type="checkbox" :name="'options['+(i-1)+'][is_correct]'" value="1"
-                                class="rounded border-neutral-700 bg-neutral-800">
+                                class="rounded border-ink-700 bg-ink-800">
                             <input type="text" :name="'options['+(i-1)+'][label]'" placeholder="Option text"
-                                class="flex-1 rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2">
+                                class="flex-1 rounded-lg bg-ink-800 border border-ink-700 text-white px-3 py-2">
                         </div>
                     </template>
                 </div>
 
                 <button type="submit"
-                    class="bg-white text-neutral-950 font-medium rounded-lg px-4 py-2 hover:bg-neutral-200 transition">
+                    class="bg-white text-ink-950 font-medium rounded-lg px-4 py-2 hover:bg-ink-200 transition">
                     Add Question
                 </button>
             </form>
         </div>
     </div>
-</body>
-</html>
+</x-layouts.app>

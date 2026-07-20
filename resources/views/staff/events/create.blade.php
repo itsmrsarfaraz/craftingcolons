@@ -1,4 +1,4 @@
-<x-layouts.site :title="'New Event — Crafting Colons'">
+<x-layouts.app :title="'New Event — Crafting Colons'">
     <section class="section max-w-2xl">
         <div class="flex items-center justify-between">
             <h1 class="font-display text-2xl font-semibold">New Event</h1>
@@ -65,4 +65,4 @@
             <button type="submit" class="btn-primary">Save Event</button>
         </form>
     </section>
-</x-layouts.site>
+</x-layouts.app>

@@ -1,5 +1,5 @@
 {{-- resources/views/staff/categories/index.blade.php --}}
-<x-layouts.site :title="'Categories — Crafting Colons'">
+<x-layouts.app :title="'Categories — Crafting Colons'">
     <section class="section max-w-2xl">
         <h1 class="font-display text-2xl font-semibold">Categories</h1>
         <p class="mt-1 text-sm text-ink-400">Used to organize Articles and News.</p>
@@ -67,4 +67,4 @@
             @endforelse
         </div>
     </section>
-</x-layouts.site>
+</x-layouts.app>

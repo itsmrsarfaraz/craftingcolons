@@ -1,4 +1,4 @@
-<x-layouts.site :title="'Edit: '.$event->title">
+<x-layouts.app :title="'Edit: '.$event->title">
     <section class="section max-w-2xl">
         <h1 class="font-display text-2xl font-semibold">Edit Event</h1>
 
@@ -67,4 +67,4 @@
             <button type="submit" class="btn-primary">Save Changes</button>
         </form>
     </section>
-</x-layouts.site>
+</x-layouts.app>

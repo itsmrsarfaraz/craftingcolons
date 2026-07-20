@@ -1,4 +1,4 @@
-<x-layouts.site :title="'Services — Crafting Colons'">
+<x-layouts.app :title="'Services — Crafting Colons'">
     <section class="section max-w-3xl">
         <div class="flex items-center justify-between">
             <h1 class="font-display text-2xl font-semibold">Services</h1>
@@ -25,4 +25,4 @@
 
         {{ $services->links() }}
     </section>
-</x-layouts.site>
+</x-layouts.app>

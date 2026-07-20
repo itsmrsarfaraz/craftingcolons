@@ -1,4 +1,4 @@
-<x-layouts.site :title="'Edit: '.$article->title">
+<x-layouts.app :title="'Edit — Crafting Colons'">
     <section class="section max-w-2xl">
         <h1 class="font-display text-2xl font-semibold">Edit Article</h1>
 

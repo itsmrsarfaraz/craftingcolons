@@ -1,52 +1,41 @@
-<!DOCTYPE html>
-<html lang="en" class="h-full bg-neutral-950">
-<head>
-    <meta charset="utf-8">
-    <title>Manage Jobs — Crafting Colons</title>
-    @vite(['resources/css/app.css'])
-</head>
-<body class="min-h-full text-white py-12 px-4">
-    <div class="max-w-4xl mx-auto space-y-6">
+<x-layouts.app :title="'Job Postings — Crafting Colons'">
+    <div class="mx-auto max-w-4xl">
         <div class="flex items-center justify-between">
-            <h1 class="text-2xl font-semibold">Job Postings</h1>
-            <a href="{{ route('hr.jobs.create') }}"
-               class="bg-white text-neutral-950 font-medium rounded-lg px-4 py-2 text-sm hover:bg-neutral-200">
-                + New Posting
-            </a>
+            <h1 class="font-display text-2xl font-semibold text-white">Job Postings</h1>
+            <a href="{{ route('hr.jobs.create') }}" class="btn-primary !px-4 !py-2 text-sm">+ New Posting</a>
         </div>
 
         @if (session('status'))
-            <div class="text-sm text-emerald-400 bg-emerald-950/40 border border-emerald-900 rounded-lg px-4 py-2">
+            <div class="mt-4 rounded-lg border border-emerald-900 bg-emerald-950/40 px-4 py-2 text-sm text-emerald-400">
                 {{ session('status') }}
             </div>
         @endif
 
-        <div class="space-y-3">
+        <div class="card mt-6 divide-y divide-ink-800">
             @foreach ($postings as $posting)
-                <div class="bg-neutral-900 border border-neutral-800 rounded-xl p-4 flex items-center justify-between">
+                <div class="flex items-center justify-between p-4">
                     <div>
-                        <p class="font-medium">{{ $posting->title }}</p>
-                        <p class="text-xs text-neutral-400">{{ $posting->status->label() }} · {{ $posting->applications()->count() }} applicants</p>
+                        <a href="{{ route('hr.jobs.edit', $posting) }}" class="font-medium text-white hover:text-brand-400">{{ $posting->title }}</a>
+                        <p class="text-xs text-ink-500">{{ $posting->status->label() }} · {{ $posting->applications()->count() }} applicants</p>
                     </div>
-                    <div class="flex gap-2">
+                    <div class="flex items-center gap-3">
+                        <a href="{{ route('hr.jobs.edit', $posting) }}" class="text-sm text-ink-400 hover:underline">Edit</a>
                         @if ($posting->status->value !== 'published')
                             <form method="POST" action="{{ route('hr.jobs.publish', $posting) }}">
                                 @csrf @method('PATCH')
-                                <button class="text-sm underline text-emerald-400">Publish</button>
+                                <button class="text-sm text-emerald-400 hover:underline">Publish</button>
                             </form>
                         @else
                             <form method="POST" action="{{ route('hr.jobs.close', $posting) }}">
                                 @csrf @method('PATCH')
-                                <button class="text-sm underline text-red-400">Close</button>
+                                <button class="text-sm text-red-400 hover:underline">Close</button>
                             </form>
                         @endif
                     </div>
-                    <a href="{{ route('hr.jobs.edit', $posting) }}" class="text-sm text-ink-400 hover:underline">Edit</a>
                 </div>
             @endforeach
         </div>
 
-        {{ $postings->links() }}
+        <div class="mt-6">{{ $postings->links() }}</div>
     </div>
-</body>
-</html>
+</x-layouts.app>

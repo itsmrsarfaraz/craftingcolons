@@ -1,4 +1,4 @@
-<x-layouts.site :title="'New Service — Crafting Colons'">
+<x-layouts.app :title="'New Service — Crafting Colons'">
     <section class="section max-w-2xl">
         <h1 class="font-display text-2xl font-semibold">New Service</h1>
 
@@ -38,4 +38,4 @@
             <button type="submit" class="btn-primary">Save Service</button>
         </form>
     </section>
-</x-layouts.site>
+</x-layouts.app>

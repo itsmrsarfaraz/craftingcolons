@@ -6,6 +6,7 @@ use App\Models\User;
 use Database\Seeders\PermissionSeeder;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class AppShellDashboardTest extends TestCase
@@ -27,7 +28,7 @@ class AppShellDashboardTest extends TestCase
         return $user;
     }
 
-    /** @dataProvider dashboardRoutes */
+    #[DataProvider('dashboardRoutes')]
     public function test_dashboard_renders_for_its_role(string $role, string $route): void
     {
         $user = $this->userWithRole($role);

@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" class="h-full bg-neutral-950">
-<head>
-    <meta charset="utf-8">
-    <title>Task Review — Crafting Colons</title>
-    @vite(['resources/css/app.css'])
-</head>
-<body class="min-h-full text-white py-12 px-4">
+<x-layouts.app :title="'Tasks — Crafting Colons'">
     <div class="max-w-2xl mx-auto space-y-6">
         <h1 class="text-2xl font-semibold">Tasks Awaiting Review</h1>
 
@@ -54,5 +47,4 @@
 
         {{ $tasks->links() }}
     </div>
-</body>
-</html>
+</x-layouts.app>
