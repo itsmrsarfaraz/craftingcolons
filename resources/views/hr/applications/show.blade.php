@@ -42,7 +42,10 @@
                 <div class="flex justify-between"><span class="text-ink-500">Status</span><span class="text-white">{{ $application->attempt->status->label() }}</span></div>
                 <div class="flex justify-between"><span class="text-ink-500">Score</span><span class="text-white">{{ $application->attempt->score ?? '—' }}{{ $application->attempt->score !== null ? '%' : '' }}</span></div>
                 <div class="flex justify-between"><span class="text-ink-500">Violations</span><span class="text-white">{{ $application->attempt->violation_count }}</span></div>
-                <a href="{{ route('hr.grading.show', $application->attempt) }}" class="text-xs text-brand-400 hover:underline">View / Grade Attempt</a>
+                <div class="mt-2 flex gap-4">
+                    <a href="{{ route('hr.grading.show', $application->attempt) }}" class="text-xs text-brand-400 hover:underline">Grade Answers</a>
+                    <a href="{{ route('hr.attempts.show', $application->attempt) }}" class="text-xs text-brand-400 hover:underline">View Violation Log</a>
+                </div>
             </div>
         @endif
 

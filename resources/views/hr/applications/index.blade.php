@@ -1,7 +1,14 @@
 <x-layouts.app :title="'Applications — '.$jobPosting->title">
     <div class="mx-auto max-w-4xl">
-        <h1 class="font-display text-2xl font-semibold text-white">Applications</h1>
-        <p class="mt-1 text-sm text-ink-400">{{ $jobPosting->title }}</p>
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="font-display text-2xl font-semibold text-white">Applications</h1>
+                <p class="mt-1 text-sm text-ink-400">{{ $jobPosting->title }}</p>
+            </div>
+            @if ($jobPosting->assessment)
+                <a href="{{ route('hr.grading.ranking', $jobPosting) }}" class="btn-secondary !px-4 !py-2 text-xs">View Ranking</a>
+            @endif
+        </div>
 
         @if (session('status'))
             <div class="mt-4 rounded-lg border border-emerald-900 bg-emerald-950/40 px-4 py-2 text-sm text-emerald-400">

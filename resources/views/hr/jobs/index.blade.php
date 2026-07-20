@@ -13,23 +13,45 @@
 
         <div class="card mt-6 divide-y divide-ink-800">
             @foreach ($postings as $posting)
-                <div class="flex items-center justify-between p-4">
-                    <div>
-                        <a href="{{ route('hr.jobs.edit', $posting) }}" class="font-medium text-white hover:text-brand-400">{{ $posting->title }}</a>
-                        <p class="text-xs text-ink-500">{{ $posting->status->label() }} · {{ $posting->applications()->count() }} applicants</p>
+                <div class="p-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <a href="{{ route('hr.jobs.edit', $posting) }}" class="font-medium text-white hover:text-brand-400">{{ $posting->title }}</a>
+                            <p class="text-xs text-ink-500">{{ $posting->status->label() }}</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            @if ($posting->status->value !== 'published')
+                                <form method="POST" action="{{ route('hr.jobs.publish', $posting) }}">
+                                    @csrf @method('PATCH')
+                                    <button class="text-sm text-emerald-400 hover:underline">Publish</button>
+                                </form>
+                            @else
+                                <form method="POST" action="{{ route('hr.jobs.close', $posting) }}">
+                                    @csrf @method('PATCH')
+                                    <button class="text-sm text-red-400 hover:underline">Close</button>
+                                </form>
+                            @endif
+                        </div>
                     </div>
-                    <div class="flex items-center gap-3">
-                        <a href="{{ route('hr.jobs.edit', $posting) }}" class="text-sm text-ink-400 hover:underline">Edit</a>
-                        @if ($posting->status->value !== 'published')
-                            <form method="POST" action="{{ route('hr.jobs.publish', $posting) }}">
-                                @csrf @method('PATCH')
-                                <button class="text-sm text-emerald-400 hover:underline">Publish</button>
-                            </form>
-                        @else
-                            <form method="POST" action="{{ route('hr.jobs.close', $posting) }}">
-                                @csrf @method('PATCH')
-                                <button class="text-sm text-red-400 hover:underline">Close</button>
-                            </form>
+
+                    <div class="mt-3 flex flex-wrap gap-3 border-t border-ink-800 pt-3 text-sm">
+                        <a href="{{ route('hr.applications.index', $posting) }}" class="text-brand-400 hover:underline">
+                            {{ $posting->applications()->count() }} Applicant{{ $posting->applications()->count() === 1 ? '' : 's' }} →
+                        </a>
+
+                        @if ($posting->assessment_required)
+                            @if ($posting->assessment)
+                                <a href="{{ route('hr.assessments.edit', $posting->assessment) }}" class="text-ink-400 hover:underline">
+                                    Edit Assessment
+                                </a>
+                                <a href="{{ route('hr.grading.ranking', $posting) }}" class="text-ink-400 hover:underline">
+                                    View Ranking
+                                </a>
+                            @else
+                                <a href="{{ route('hr.assessments.create', $posting) }}" class="text-amber-400 hover:underline">
+                                    ⚠ Create Assessment
+                                </a>
+                            @endif
                         @endif
                     </div>
                 </div>

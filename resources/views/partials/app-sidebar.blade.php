@@ -54,6 +54,7 @@
 
             if ($user->hasRole('hr') || $user->hasRole('admin')) {
                 $groups[] = $renderGroup('Recruitment', [
+                    $link('hr.dashboard', 'Dashboard', '🏠'),
                     $link('hr.jobs.index', 'Job Postings', '💼'),
                 ]);
             }
