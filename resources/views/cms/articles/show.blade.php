@@ -1,44 +1,31 @@
-<!DOCTYPE html>
-<html lang="en" class="h-full bg-neutral-950">
-<head>
-    <meta charset="utf-8">
-    <title>{{ $article->seoTitle() }} — Crafting Colons</title>
-    <meta name="description" content="{{ $article->seoDescription() }}">
-    @if ($article->canonical_url)
-        <link rel="canonical" href="{{ $article->canonical_url }}">
-    @endif
-    <meta property="og:title" content="{{ $article->seoTitle() }}">
-    <meta property="og:description" content="{{ $article->seoDescription() }}">
-    @if ($article->featuredImage())
-        <meta property="og:image" content="{{ $article->featuredImage()->url() }}">
-    @endif
-    @vite(['resources/css/app.css'])
-</head>
-<body class="min-h-full text-white py-12 px-4">
-    <article class="max-w-2xl mx-auto space-y-6">
-        @if ($article->featuredImage())
-            <img src="{{ $article->featuredImage()->url() }}" class="rounded-2xl w-full" alt="{{ $article->title }}">
-        @endif
+<x-layouts.site :title="$article->seoTitle().' — Crafting Colons'" :description="$article->seoDescription()">
+    <section class="section max-w-2xl">
+        <a href="{{ route('articles.index') }}" class="text-sm text-ink-400 hover:text-white" data-reveal>← All articles</a>
 
-        <div>
-            <h1 class="text-3xl font-semibold">{{ $article->title }}</h1>
-            <p class="text-sm text-neutral-500 mt-2">
-                By {{ $article->author->name }} · {{ $article->published_at->format('M j, Y') }}
-            </p>
+        <div class="mt-4" data-reveal data-reveal-delay="1">
+            <h1 class="font-display text-3xl font-semibold sm:text-4xl">{{ $article->title }}</h1>
+            <p class="mt-3 text-sm text-ink-500">By {{ $article->author->name }} · {{ $article->published_at->format('M j, Y') }}</p>
         </div>
 
-        <div class="prose prose-invert max-w-none">
+        @if ($article->featuredImage())
+            <div class="mt-8 overflow-hidden rounded-2xl" data-reveal data-reveal-delay="2">
+                <img src="{{ $article->featuredImage()->url() }}" class="w-full" alt="{{ $article->title }}">
+            </div>
+        @endif
+
+        <div class="prose prose-invert mt-8 max-w-none" data-reveal data-reveal-delay="3">
             {!! nl2br(e($article->body)) !!}
         </div>
 
-        <div class="flex gap-2 flex-wrap pt-4 border-t border-neutral-800">
-            @foreach ($article->tags as $tag)
-                <a href="{{ route('articles.index', ['tag' => $tag->slug]) }}"
-                   class="text-xs bg-neutral-800 rounded-full px-3 py-1 hover:bg-neutral-700">
-                    #{{ $tag->name }}
-                </a>
-            @endforeach
-        </div>
-    </article>
-</body>
-</html>
+        @if ($article->tags->isNotEmpty())
+            <div class="mt-10 flex flex-wrap gap-2 border-t border-ink-800 pt-6" data-reveal data-reveal-delay="4">
+                @foreach ($article->tags as $tag)
+                    <a href="{{ route('articles.index', ['tag' => $tag->slug]) }}"
+                       class="rounded-full bg-ink-800 px-3 py-1 text-xs text-ink-300 hover:bg-ink-700">
+                        #{{ $tag->name }}
+                    </a>
+                @endforeach
+            </div>
+        @endif
+    </section>
+</x-layouts.site>

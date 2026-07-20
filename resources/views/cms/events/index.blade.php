@@ -1,27 +1,35 @@
-<!DOCTYPE html>
-<html lang="en" class="h-full bg-neutral-950">
-<head>
-    <meta charset="utf-8">
-    <title>Events — Crafting Colons</title>
-    @vite(['resources/css/app.css'])
-</head>
-<body class="min-h-full text-white py-12 px-4">
-    <div class="max-w-3xl mx-auto space-y-6">
-        <h1 class="text-3xl font-semibold">Events</h1>
-
-        <div class="grid gap-4">
-            @foreach ($events as $event)
-                <a href="{{ route('events.show', $event->slug) }}"
-                   class="block bg-neutral-900 border border-neutral-800 rounded-2xl p-6 hover:border-neutral-700 transition">
-                    <h2 class="text-lg font-semibold">{{ $event->title }}</h2>
-                    <p class="text-sm text-neutral-400 mt-2">
-                        {{ $event->starts_at->format('M j, Y g:i A') }} · {{ $event->is_virtual ? 'Virtual' : $event->location }}
-                    </p>
-                </a>
-            @endforeach
+<x-layouts.site :title="'Events — Crafting Colons'">
+    <section class="section">
+        <div class="text-center" data-reveal>
+            <span class="eyebrow">Community</span>
+            <h1 class="mt-2 font-display text-3xl font-semibold sm:text-4xl">Events</h1>
+            <p class="mx-auto mt-3 max-w-lg text-ink-400">Meetups, workshops, and training sessions.</p>
         </div>
 
-        {{ $events->links() }}
-    </div>
-</body>
-</html>
+        <div class="mt-8 flex justify-center gap-2" data-reveal data-reveal-delay="1">
+            <a href="{{ route('events.index') }}"
+               class="rounded-full px-4 py-1.5 text-xs font-medium {{ request('when', 'upcoming') === 'upcoming' ? 'bg-brand-500 text-ink-950' : 'bg-ink-800 text-ink-300' }}">
+                Upcoming
+            </a>
+            <a href="{{ route('events.index', ['when' => 'past']) }}"
+               class="rounded-full px-4 py-1.5 text-xs font-medium {{ request('when') === 'past' ? 'bg-brand-500 text-ink-950' : 'bg-ink-800 text-ink-300' }}">
+                Past
+            </a>
+        </div>
+
+        <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            @forelse ($events as $i => $event)
+                <a href="{{ route('events.show', $event->slug) }}"
+                   class="card card-hover p-5" data-reveal data-reveal-delay="{{ min($i, 4) }}">
+                    <p class="text-xs font-medium uppercase tracking-wide text-brand-400">{{ $event->starts_at->format('M j, Y') }}</p>
+                    <h2 class="mt-2 font-semibold text-white">{{ $event->title }}</h2>
+                    <p class="mt-2 text-sm text-ink-400">{{ $event->is_virtual ? 'Virtual' : $event->location }}</p>
+                </a>
+            @empty
+                <div class="card p-10 text-center text-ink-500 sm:col-span-2 lg:col-span-3">No events found.</div>
+            @endforelse
+        </div>
+
+        <div class="mt-8">{{ $events->links() }}</div>
+    </section>
+</x-layouts.site>

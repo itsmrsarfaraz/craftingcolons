@@ -1,28 +1,29 @@
-<!DOCTYPE html>
-<html lang="en" class="h-full bg-neutral-950">
-<head>
-    <meta charset="utf-8">
-    <title>News — Crafting Colons</title>
-    @vite(['resources/css/app.css'])
-</head>
-<body class="min-h-full text-white py-12 px-4">
-    <div class="max-w-3xl mx-auto space-y-6">
-        <h1 class="text-3xl font-semibold">News</h1>
-
-        <div class="grid gap-4">
-            @foreach ($news as $news)
-                <a href="{{ route('news.show', $news->slug) }}"
-                   class="block bg-neutral-900 border border-neutral-800 rounded-2xl p-6 hover:border-neutral-700 transition">
-                    <h2 class="text-lg font-semibold">{{ $news->title }}</h2>
-                    <p class="text-sm text-neutral-400 mt-2">{{ $news->excerpt }}</p>
-                    <p class="text-xs text-neutral-500 mt-3">
-                        By {{ $news->author->name }} · {{ $news->published_at->format('M j, Y') }}
-                    </p>
-                </a>
-            @endforeach
+<x-layouts.site :title="'News — Crafting Colons'">
+    <section class="section">
+        <div class="text-center" data-reveal>
+            <span class="eyebrow">Updates</span>
+            <h1 class="mt-2 font-display text-3xl font-semibold sm:text-4xl">Company News</h1>
+            <p class="mx-auto mt-3 max-w-lg text-ink-400">Announcements, milestones, and what's happening at Crafting Colons.</p>
         </div>
 
-        {{ $news->links() }}
-    </div>
-</body>
-</html>
+        <div class="mt-10 space-y-4">
+            @forelse ($news as $i => $item)
+                <a href="{{ route('news.show', $item->slug) }}"
+                   class="card card-hover flex flex-col gap-2 p-5 sm:flex-row sm:items-center sm:justify-between"
+                   data-reveal data-reveal-delay="{{ min($i, 4) }}">
+                    <div>
+                        <h2 class="font-semibold text-white">{{ $item->title }}</h2>
+                        @if ($item->excerpt)
+                            <p class="mt-1 text-sm text-ink-400">{{ Str::limit($item->excerpt, 120) }}</p>
+                        @endif
+                    </div>
+                    <span class="shrink-0 text-xs text-ink-500">{{ $item->published_at->format('M j, Y') }}</span>
+                </a>
+            @empty
+                <div class="card p-10 text-center text-ink-500">No news yet.</div>
+            @endforelse
+        </div>
+
+        <div class="mt-8">{{ $news->links() }}</div>
+    </section>
+</x-layouts.site>

@@ -31,27 +31,59 @@
 
         <div class="space-y-3">
             @foreach ($assessment->questions as $question)
-                <div class="bg-neutral-900 border border-neutral-800 rounded-xl p-4">
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs uppercase tracking-wide text-neutral-400">
-                            {{ $question->type->label() }} · {{ $question->marks }} marks
-                        </span>
-                        <form method="POST" action="{{ route('hr.questions.destroy', [$assessment, $question]) }}">
-                            @csrf @method('DELETE')
-                            <button class="text-xs text-red-400 underline">Remove</button>
-                        </form>
-                    </div>
-                    <p class="mt-2">{{ $question->prompt }}</p>
+                <div x-data="{ editing: false }" class="bg-neutral-900 border border-neutral-800 rounded-xl p-4">
+                    <div x-show="!editing">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs uppercase tracking-wide text-neutral-400">
+                                {{ $question->type->label() }} · {{ $question->marks }} marks
+                            </span>
+                            <div class="flex gap-3">
+                                <button @click="editing = true" class="text-xs underline">Edit</button>
+                                <form method="POST" action="{{ route('hr.questions.destroy', [$assessment, $question]) }}">
+                                    @csrf @method('DELETE')
+                                    <button class="text-xs text-red-400 underline">Remove</button>
+                                </form>
+                            </div>
+                        </div>
+                        <p class="mt-2">{{ $question->prompt }}</p>
 
-                    @if ($question->type->usesOptions())
-                        <ul class="mt-3 space-y-1 text-sm">
-                            @foreach ($question->options as $option)
-                                <li class="{{ $option->is_correct ? 'text-emerald-400' : 'text-neutral-400' }}">
-                                    {{ $option->is_correct ? '✓' : '○' }} {{ $option->label }}
-                                </li>
+                        @if ($question->type->usesOptions())
+                            <ul class="mt-3 space-y-1 text-sm">
+                                @foreach ($question->options as $option)
+                                    <li class="{{ $option->is_correct ? 'text-emerald-400' : 'text-neutral-400' }}">
+                                        {{ $option->is_correct ? '✓' : '○' }} {{ $option->label }}
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </div>
+
+                    <form x-show="editing" x-cloak method="POST" action="{{ route('hr.questions.update', [$assessment, $question]) }}" class="space-y-3">
+                        @csrf @method('PUT')
+                        <input type="hidden" name="type" value="{{ $question->type->value }}">
+
+                        <textarea name="prompt" rows="2" required
+                            class="w-full rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2">{{ $question->prompt }}</textarea>
+
+                        <input type="number" name="marks" value="{{ $question->marks }}" min="1" required
+                            class="w-24 rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2">
+
+                        @if ($question->type->usesOptions())
+                            @foreach ($question->options as $index => $option)
+                                <div class="flex items-center gap-2">
+                                    <input type="checkbox" name="options[{{ $index }}][is_correct]" value="1" {{ $option->is_correct ? 'checked' : '' }}
+                                        class="rounded border-neutral-700 bg-neutral-800">
+                                    <input type="text" name="options[{{ $index }}][label]" value="{{ $option->label }}"
+                                        class="flex-1 rounded-lg bg-neutral-800 border border-neutral-700 text-white px-3 py-2">
+                                </div>
                             @endforeach
-                        </ul>
-                    @endif
+                        @endif
+
+                        <div class="flex gap-2">
+                            <button type="submit" class="text-xs bg-white text-neutral-950 rounded-lg px-3 py-1.5">Save</button>
+                            <button type="button" @click="editing = false" class="text-xs underline text-neutral-400">Cancel</button>
+                        </div>
+                    </form>
                 </div>
             @endforeach
         </div>
