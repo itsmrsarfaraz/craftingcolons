@@ -89,17 +89,18 @@ class AdminUserManagementTest extends TestCase
     {
         $admin = $this->admin();
 
-        $this->actingAs($admin)->post(route('admin.users.store'), [
-            'name' => 'Login Test', 'email' => 'logintest@craftingcolons.com', 'role' => 'hr',
-        ]);
-
-        // Can't read the flashed password directly in a test HTTP round-trip easily,
-        // so verify via the service directly instead.
         $service = app(\App\Services\Admin\UserManagementService::class);
         [$user, $password] = $service->create(['name' => 'Second User', 'email' => 'second@test.com', 'role' => 'staff']);
 
+        // Log out of the admin session created by $this->admin() before attempting
+        // a fresh login — the /login route sits behind 'guest' middleware, so an
+        // already-authenticated request would be redirected away before the
+        // login attempt ever runs, silently no-op'ing the assertion below.
+        $this->post(route('logout'));
+
         $response = $this->post('/login', ['email' => $user->email, 'password' => $password]);
 
+        $response->assertRedirect();
         $this->assertAuthenticatedAs($user);
     }
 }
