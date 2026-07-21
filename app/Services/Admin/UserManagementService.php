@@ -4,12 +4,13 @@ namespace App\Services\Admin;
 
 use App\Enums\UserStatus;
 use App\Models\User;
+use App\Notifications\NewAccountCredentialsNotification;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class UserManagementService
 {
-    public function create(array $data): array
+    public function create(array $data): User
     {
         $temporaryPassword = Str::password(12);
 
@@ -22,7 +23,9 @@ class UserManagementService
 
         $user->assignRole($data['role']);
 
-        return [$user, $temporaryPassword];
+        $user->notify(new NewAccountCredentialsNotification($temporaryPassword));
+
+        return $user;
     }
 
     public function changeRole(User $user, string $roleSlug): User

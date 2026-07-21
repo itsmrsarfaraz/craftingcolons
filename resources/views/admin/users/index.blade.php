@@ -6,14 +6,8 @@
         </div>
 
         @if (session('status'))
-            <div class="mt-4 rounded-lg border border-emerald-900 bg-emerald-950/40 px-4 py-3 text-sm text-emerald-400">
-                <p>{{ session('status') }}</p>
-                @if (session('temporaryPassword'))
-                    <p class="mt-2 font-mono text-white">
-                        {{ session('newUserEmail') }} — Temporary password: {{ session('temporaryPassword') }}
-                    </p>
-                    <p class="mt-1 text-xs text-emerald-300">Share this securely with the new user. It will not be shown again.</p>
-                @endif
+            <div class="mt-4 rounded-lg border border-emerald-900 bg-emerald-950/40 px-4 py-2 text-sm text-emerald-400">
+                {{ session('status') }}
             </div>
         @endif
 

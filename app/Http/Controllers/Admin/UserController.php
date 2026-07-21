@@ -34,13 +34,11 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request): RedirectResponse
     {
-        [$user, $temporaryPassword] = $this->userManagementService->create($request->validated());
+        $user = $this->userManagementService->create($request->validated());
 
         return redirect()
             ->route('admin.users.index')
-            ->with('status', "User \"{$user->name}\" created.")
-            ->with('temporaryPassword', $temporaryPassword)
-            ->with('newUserEmail', $user->email);
+            ->with('status', "User \"{$user->name}\" created. Login credentials have been emailed to {$user->email}.");
     }
 
     public function updateRole(Request $request, User $user): RedirectResponse

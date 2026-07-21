@@ -3,9 +3,11 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Notifications\NewAccountCredentialsNotification;
 use Database\Seeders\PermissionSeeder;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class AdminUserManagementTest extends TestCase
@@ -29,6 +31,7 @@ class AdminUserManagementTest extends TestCase
 
     public function test_admin_can_create_an_hr_user(): void
     {
+        Notification::fake();
         $admin = $this->admin();
 
         $response = $this->actingAs($admin)->post(route('admin.users.store'), [
@@ -45,6 +48,7 @@ class AdminUserManagementTest extends TestCase
 
     public function test_admin_can_create_a_staff_user(): void
     {
+        Notification::fake();
         $admin = $this->admin();
 
         $response = $this->actingAs($admin)->post(route('admin.users.store'), [
@@ -85,17 +89,38 @@ class AdminUserManagementTest extends TestCase
         $this->assertFalse($staffUser->hasRole('staff'));
     }
 
+    public function test_creating_a_user_sends_them_their_credentials_by_email(): void
+    {
+        Notification::fake();
+        $admin = $this->admin();
+
+        $this->actingAs($admin)->post(route('admin.users.store'), [
+            'name' => 'Notified User', 'email' => 'notified@craftingcolons.com', 'role' => 'staff',
+        ]);
+
+        $newUser = User::where('email', 'notified@craftingcolons.com')->first();
+
+        Notification::assertSentTo($newUser, NewAccountCredentialsNotification::class);
+    }
+
     public function test_the_generated_password_actually_logs_the_user_in(): void
     {
         $admin = $this->admin();
 
         $service = app(\App\Services\Admin\UserManagementService::class);
-        [$user, $password] = $service->create(['name' => 'Second User', 'email' => 'second@test.com', 'role' => 'staff']);
 
-        // Log out of the admin session created by $this->admin() before attempting
-        // a fresh login — the /login route sits behind 'guest' middleware, so an
-        // already-authenticated request would be redirected away before the
-        // login attempt ever runs, silently no-op'ing the assertion below.
+        // Capture the notification instead of faking it, so we can read the
+        // actual generated password via reflection on the private property.
+        \Illuminate\Support\Facades\Notification::fake();
+        $user = $service->create(['name' => 'Second User', 'email' => 'second@test.com', 'role' => 'staff']);
+
+        $sent = \Illuminate\Support\Facades\Notification::sent(
+            $user,
+            NewAccountCredentialsNotification::class
+        )->first();
+
+        $password = (fn () => $this->temporaryPassword)->call($sent);
+
         $this->post(route('logout'));
 
         $response = $this->post('/login', ['email' => $user->email, 'password' => $password]);
