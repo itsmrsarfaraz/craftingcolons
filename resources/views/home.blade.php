@@ -258,7 +258,7 @@
                 <p class="font-display text-xl font-semibold text-white">Stay in the loop</p>
                 <p class="mt-1 text-sm text-ink-400">Product updates, hiring news, and articles — no spam.</p>
             </div>
-            <form method="POST" action="#" class="flex w-full max-w-sm gap-2 sm:w-auto">
+            <form method="POST" action="{{ route('newsletter.subscribe') }}" class="flex w-full max-w-sm gap-2 sm:w-auto">
                 @csrf
                 <input type="email" name="email" required placeholder="you@email.com"
                     class="w-full rounded-full border border-ink-600 bg-ink-800 px-4 py-2.5 text-sm text-white placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-brand-500/50">

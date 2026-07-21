@@ -72,6 +72,7 @@
 
             if ($user->hasRole('admin')) {
                 $groups[] = $renderGroup('Administration', [
+                    $link('admin.contact-submissions.index', 'Messages', '✉️'),
                     $link('admin.activity-logs.index', 'Activity Log', '📊'),
                     $link('admin.settings.index', 'Settings', '⚙️'),
                     $link('admin.users.index', 'Users', '👥'),

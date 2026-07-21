@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ActivityLogController;
+use App\Http\Controllers\Admin\ContactSubmissionController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Applicant\DocumentController;
@@ -34,6 +35,7 @@ use App\Http\Controllers\Hr\EmployeeOnboardingController;
 use App\Http\Controllers\Hr\GradingController;
 use App\Http\Controllers\Hr\JobPostingController;
 use App\Http\Controllers\Hr\QuestionController;
+use App\Http\Controllers\Public\ContactController;
 use App\Http\Controllers\Search\GlobalSearchController;
 use App\Http\Controllers\Seo\SitemapController;
 use App\Http\Controllers\Staff\AnnouncementController;
@@ -69,8 +71,16 @@ Route::middleware('auth')->post('/events/{event:slug}/register', [EventRegistrat
 Route::get('/careers', [JobController::class, 'index'])->name('careers.index');
 Route::get('/careers/{jobPosting:slug}', [JobController::class, 'show'])->name('careers.show');
 
+Route::get('/about', fn () => view('about'))->name('about');
+Route::get('/contact', [ContactController::class, 'show'])->name('contact.show');
 
-Route::middleware('guest')->group(function () {
+Route::middleware('throttle:5,1')->group(function () {
+    Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+    Route::post('/newsletter/subscribe', [ContactController::class, 'subscribe'])->name('newsletter.subscribe');
+});
+
+
+Route::middleware(['throttle:5,1','guest'])->group(function () {
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -249,5 +259,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
         Route::post('/users', [UserController::class, 'store'])->name('users.store');
         Route::patch('/users/{user}/role', [UserController::class, 'updateRole'])->name('users.role');
+        Route::get('/contact-submissions', [ContactSubmissionController::class, 'index'])->name('contact-submissions.index');
+        Route::patch('/contact-submissions/{submission}/read', [ContactSubmissionController::class, 'markAsRead'])->name('contact-submissions.read');
     });
 });
