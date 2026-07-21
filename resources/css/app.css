@@ -38,6 +38,22 @@
     --color-slate-100: #e4e6f0;
     --color-slate-50: #f5f6fa;
 
+    /* Alias: ink-* == slate-*. ~70 existing views across Steps 13-24 use the
+       ink-* token names; rather than rewriting every file during the rebrand,
+       ink-* is kept as a permanent alias to the same underlying scale so those
+       views keep rendering correctly without a risky mass find-and-replace. */
+    --color-ink-950: #05060a;
+    --color-ink-900: #0b0d14;
+    --color-ink-800: #131622;
+    --color-ink-700: #1d2130;
+    --color-ink-600: #2c3145;
+    --color-ink-500: #4b5170;
+    --color-ink-400: #6b7291;
+    --color-ink-300: #9198b5;
+    --color-ink-200: #c2c6da;
+    --color-ink-100: #e4e6f0;
+    --color-ink-50: #f5f6fa;
+
     --shadow-glow: 0 0 0 1px rgb(124 92 255 / 0.08), 0 8px 28px -8px rgb(124 92 255 / 0.35);
     --shadow-card: 0 1px 2px rgb(0 0 0 / 0.25), 0 12px 32px -12px rgb(0 0 0 / 0.4);
 }
