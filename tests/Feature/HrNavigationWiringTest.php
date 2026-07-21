@@ -91,12 +91,12 @@ class HrNavigationWiringTest extends TestCase
             'status' => JobApplicationStatus::Applied,
         ]);
 
-        $assessment = Assessment::create([
+        Assessment::create([
             'job_posting_id' => $posting->id, 'title' => 'T', 'duration_minutes' => 30,
             'passing_marks' => 70, 'created_by' => $hr->id,
         ]);
 
-        $this->actingAs($applicant)->post(route('assessments.start', $application));
+        $this->actingAs($applicant)->post(route('applicant.assessments.start', $application));
         $attempt = $application->fresh()->attempt;
 
         $response = $this->actingAs($hr)->get(route('hr.applications.show', $application));

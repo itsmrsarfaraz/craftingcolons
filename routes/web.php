@@ -7,6 +7,7 @@ use App\Http\Controllers\Applicant\DocumentController;
 use App\Http\Controllers\Applicant\ProfileController;
 use App\Http\Controllers\Assessments\AttemptController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Careers\JobApplicationController;
 use App\Http\Controllers\Hr\JobApplicationController as HrJobApplicationController;
 use App\Http\Controllers\Careers\JobController;
@@ -74,6 +75,11 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
+
+    Route::get('/forgot-password', [PasswordResetController::class, 'showForgotForm'])->name('password.request');
+    Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLink'])->name('password.email');
+    Route::get('/reset-password/{token}', [PasswordResetController::class, 'showResetForm'])->name('password.reset');
+    Route::post('/reset-password', [PasswordResetController::class, 'reset'])->name('password.update');
 });
 
 Route::middleware('auth')->group(function () {
