@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer onload="lucide.createIcons()"></script>
+    <script>
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.add('light');
+        } else {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
 </head>
 <body class="h-full bg-ink-950" x-data="{ sidebarOpen: false }">
     <div class="flex h-full">

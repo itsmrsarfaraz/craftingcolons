@@ -3,68 +3,111 @@
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
+/* Tailwind v4 dark mode is class-based via this custom variant, driven by
+   the `dark` class on <html> — required for our JS-toggled theme to work,
+   since v4's default dark: variant is media-query-only otherwise. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
-    --font-display: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
-    /* Brand: warm amber accent against near-black, not generic blue */
-    --color-brand-50: #fff8ed;
-    --color-brand-100: #ffefd1;
-    --color-brand-300: #ffcd7a;
-    --color-brand-400: #ffb545;
-    --color-brand-500: #f9971f;
-    --color-brand-600: #ea7a0e;
-    --color-brand-700: #c25c0c;
+    /* Brand: electric indigo/violet — developer-tool energy, not corporate blue */
+    --color-brand-50: #f1efff;
+    --color-brand-100: #e3ddff;
+    --color-brand-300: #b3a1ff;
+    --color-brand-400: #9075ff;
+    --color-brand-500: #7c5cff;
+    --color-brand-600: #6742e8;
+    --color-brand-700: #5230c4;
 
-    --color-ink-950: #08090b;
-    --color-ink-900: #0e1013;
-    --color-ink-800: #16181d;
-    --color-ink-700: #22252c;
-    --color-ink-600: #33373f;
-    --color-ink-500: #565b66;
-    --color-ink-400: #7a808c;
-    --color-ink-300: #9ea3ad;
-    --color-ink-200: #c6c9d0;
-    --color-ink-100: #e7e8eb;
+    --color-mint-400: #3ee6a8;
+    --color-mint-500: #1fcf8e;
 
-    --shadow-glow: 0 0 0 1px rgb(255 255 255 / 0.04), 0 8px 24px -8px rgb(0 0 0 / 0.5);
-    --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -12px rgb(0 0 0 / 0.45);
+    /* Slate scale — cooler than the old warm "ink" palette */
+    --color-slate-950: #05060a;
+    --color-slate-900: #0b0d14;
+    --color-slate-800: #131622;
+    --color-slate-700: #1d2130;
+    --color-slate-600: #2c3145;
+    --color-slate-500: #4b5170;
+    --color-slate-400: #6b7291;
+    --color-slate-300: #9198b5;
+    --color-slate-200: #c2c6da;
+    --color-slate-100: #e4e6f0;
+    --color-slate-50: #f5f6fa;
+
+    --shadow-glow: 0 0 0 1px rgb(124 92 255 / 0.08), 0 8px 28px -8px rgb(124 92 255 / 0.35);
+    --shadow-card: 0 1px 2px rgb(0 0 0 / 0.25), 0 12px 32px -12px rgb(0 0 0 / 0.4);
 }
 
 @layer base {
+    html {
+        color-scheme: dark;
+    }
+
+    html.light {
+        color-scheme: light;
+    }
+
     body {
-        @apply bg-ink-950 text-ink-100 antialiased;
+        @apply bg-slate-950 text-slate-100 antialiased;
         font-feature-settings: "cv11", "ss01";
     }
 
+    html.light body {
+        @apply bg-slate-50 text-slate-900;
+    }
+
     h1, h2, h3 {
-        @apply tracking-tight text-white;
+        @apply font-display tracking-tight text-white;
+    }
+
+    html.light h1, html.light h2, html.light h3 {
+        @apply text-slate-950;
+    }
+
+    code, .font-mono {
+        font-family: var(--font-mono);
     }
 }
 
 @layer components {
     .btn-primary {
-        @apply inline-flex items-center justify-center gap-2 rounded-full bg-brand-500 px-6 py-3
-               text-sm font-semibold text-ink-950 shadow-glow transition
+        @apply inline-flex items-center justify-center gap-2 rounded-lg bg-brand-500 px-6 py-3
+               text-sm font-semibold text-white shadow-glow transition
                hover:bg-brand-400 active:bg-brand-600;
     }
 
     .btn-secondary {
-        @apply inline-flex items-center justify-center gap-2 rounded-full border border-ink-600
+        @apply inline-flex items-center justify-center gap-2 rounded-lg border border-slate-600
                px-6 py-3 text-sm font-semibold text-white transition
-               hover:border-ink-500 hover:bg-ink-800;
+               hover:border-slate-400 hover:bg-slate-800;
+    }
+
+    html.light .btn-secondary {
+        @apply border-slate-300 text-slate-900 hover:border-slate-400 hover:bg-slate-100;
     }
 
     .card {
-        @apply rounded-2xl border border-ink-700 bg-ink-900 shadow-card;
+        @apply rounded-xl border border-slate-700 bg-slate-900 shadow-card;
+    }
+
+    html.light .card {
+        @apply border-slate-200 bg-white shadow-none;
     }
 
     .card-hover {
-        @apply transition hover:border-ink-500 hover:-translate-y-0.5;
+        @apply transition hover:border-slate-500 hover:-translate-y-0.5;
+    }
+
+    html.light .card-hover {
+        @apply hover:border-slate-300;
     }
 
     .eyebrow {
-        @apply text-xs font-semibold uppercase tracking-[0.14em] text-brand-400;
+        @apply font-mono text-xs font-medium uppercase tracking-[0.14em] text-brand-400;
     }
 
     .section {
@@ -94,5 +137,19 @@
 
     .animate-marquee {
         animation: marquee 28s linear infinite;
+    }
+
+    /* Subtle dev-tool grid backdrop for the hero */
+    .grid-backdrop {
+        background-image:
+            linear-gradient(to right, rgb(255 255 255 / 0.04) 1px, transparent 1px),
+            linear-gradient(to bottom, rgb(255 255 255 / 0.04) 1px, transparent 1px);
+        background-size: 44px 44px;
+    }
+
+    html.light .grid-backdrop {
+        background-image:
+            linear-gradient(to right, rgb(0 0 0 / 0.045) 1px, transparent 1px),
+            linear-gradient(to bottom, rgb(0 0 0 / 0.045) 1px, transparent 1px);
     }
 }

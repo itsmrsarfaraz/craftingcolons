@@ -41,6 +41,9 @@
                             <p class="font-medium">{{ $task->title }}</p>
                             <p class="text-xs text-ink-500">
                                 {{ $task->due_date?->format('M j, Y') ?? 'No due date' }}
+                                @if ($task->assignedBy)
+                                    · Assigned by {{ $task->assignedBy->name }}
+                                @endif
                             </p>
                         </div>
                         <span class="text-xs uppercase tracking-wide bg-ink-800 rounded-full px-3 py-1">

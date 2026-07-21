@@ -1,4 +1,3 @@
-//
 document.addEventListener('DOMContentLoaded', () => {
     const revealElements = document.querySelectorAll('[data-reveal]');
 
@@ -12,4 +11,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 
     revealElements.forEach((el) => observer.observe(el));
+
+    // Re-render Lucide icons after Alpine mutates the DOM (e.g. mobile menu toggling)
+    if (window.lucide) {
+        window.lucide.createIcons();
+    }
+    document.addEventListener('alpine:updated', () => {
+        if (window.lucide) window.lucide.createIcons();
+    });
 });

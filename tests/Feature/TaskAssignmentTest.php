@@ -93,7 +93,7 @@ class TaskAssignmentTest extends TestCase
             'title' => 'Ship the release',
         ]);
 
-        $response = $this->actingAs($employee->user)->get(route('employee.tasks.review'));
+        $response = $this->actingAs($employee->user)->get(route('employee.tasks.index'));
 
         $response->assertSee('Ship the release');
         $response->assertSee('Assigned by '.$lead->name);

@@ -6,8 +6,12 @@
 >
     <nav class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <a href="{{ route('home') }}" class="flex items-center gap-2 shrink-0">
-            <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-500 font-display text-sm font-bold text-ink-950">CC</span>
-            <span class="font-display text-base font-semibold text-white sm:text-lg">Crafting Colons</span>
+            <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-500 p-1.5 text-white">
+                <x-logo-mark class="h-full w-full" />
+            </span>
+            <span class="font-display text-base font-semibold text-white sm:text-lg">
+                <span class="dark:text-white text-slate-950">Crafting Colons</span>
+            </span>
         </a>
 
         <!-- Desktop links -->
@@ -26,6 +30,8 @@
             <div class="hidden sm:block">
                 <x-global-search />
             </div>
+
+            <x-theme-toggle />
 
             <div class="hidden items-center gap-3 lg:flex">
                 @auth

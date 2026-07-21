@@ -1,22 +1,39 @@
 <x-layouts.site :title="'Crafting Colons — Software Development & IT Services, Islamabad'">
 
     <!-- Hero -->
-    <section class="relative overflow-hidden">
+    <section class="relative overflow-hidden grid-backdrop">
         <div class="pointer-events-none absolute inset-x-0 -top-32 -z-10 flex justify-center">
             <div class="h-[320px] w-[90vw] max-w-[780px] rounded-full bg-brand-500/20 blur-[100px] sm:h-[480px]"></div>
         </div>
 
-        <div class="mx-auto max-w-4xl px-4 pt-16 pb-14 text-center sm:px-6 sm:pt-24 sm:pb-20 lg:px-8">
-            <span class="eyebrow" data-reveal>Islamabad · Est. 2024</span>
+        <div class="mx-auto max-w-4xl px-4 pt-16 pb-8 text-center sm:px-6 sm:pt-24 lg:px-8">
+            <span class="eyebrow" data-reveal>&gt; Islamabad · Est. 2024</span>
             <h1 class="mx-auto mt-4 max-w-3xl font-display text-4xl font-semibold leading-[1.1] sm:text-5xl lg:text-6xl lg:leading-[1.05]" data-reveal data-reveal-delay="1">
                 We build software that <span class="text-brand-400">means business.</span>
             </h1>
-            <p class="mx-auto mt-5 max-w-xl text-base text-ink-300 sm:mt-6 sm:text-lg" data-reveal data-reveal-delay="2">
+            <p class="mx-auto mt-5 max-w-xl text-base text-slate-400 sm:mt-6 sm:text-lg" data-reveal data-reveal-delay="2">
                 Web platforms, mobile apps, and internal tools — designed, shipped, and maintained by a team that also trains the next generation of developers.
             </p>
             <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:mt-9 sm:flex-row sm:gap-4" data-reveal data-reveal-delay="3">
                 <a href="{{ route('careers.index') }}" class="btn-primary w-full sm:w-auto">View Open Roles</a>
                 <a href="{{ route('projects.index') }}" class="btn-secondary w-full sm:w-auto">See Our Work →</a>
+            </div>
+        </div>
+
+        <!-- Code-window illustration -->
+        <div class="mx-auto mt-10 max-w-3xl px-4 sm:px-6 lg:px-8" data-reveal data-reveal-delay="4">
+            <div class="card overflow-hidden">
+                <div class="flex items-center gap-1.5 border-b border-slate-700 bg-slate-800/60 px-4 py-3">
+                    <span class="h-2.5 w-2.5 rounded-full bg-red-400/70"></span>
+                    <span class="h-2.5 w-2.5 rounded-full bg-yellow-400/70"></span>
+                    <span class="h-2.5 w-2.5 rounded-full bg-mint-400/70"></span>
+                    <span class="ml-3 font-mono text-xs text-slate-500">deploy.php</span>
+                </div>
+                <pre class="overflow-x-auto p-6 font-mono text-sm leading-relaxed"><code><span class="text-brand-400">Route::</span><span class="text-mint-400">middleware</span>(<span class="text-slate-300">'auth'</span>)<span class="text-slate-500">-></span><span class="text-mint-400">group</span>(<span class="text-brand-400">function</span> () {
+        <span class="text-brand-400">Route::</span><span class="text-mint-400">get</span>(<span class="text-slate-300">'/dashboard'</span>, [<span class="text-slate-100">DashboardController</span>::class, <span class="text-slate-300">'index'</span>]);
+    });
+
+    <span class="text-slate-500">// shipped by Crafting Colons ✓</span></code></pre>
             </div>
         </div>
     </section>
