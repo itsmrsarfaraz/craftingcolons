@@ -40,6 +40,7 @@ use App\Http\Controllers\Search\GlobalSearchController;
 use App\Http\Controllers\Seo\SitemapController;
 use App\Http\Controllers\Staff\AnnouncementController;
 use App\Http\Controllers\Staff\CategoryController;
+use App\Http\Controllers\TeamLead\TaskAssignmentController;
 use App\Http\Controllers\TeamLead\TaskReviewController;
 use Illuminate\Support\Facades\Route;
 
@@ -208,6 +209,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/tasks', [TaskReviewController::class, 'index'])->name('tasks.review');
         Route::patch('/tasks/{task}/approve', [TaskReviewController::class, 'approve'])->name('tasks.approve');
         Route::patch('/tasks/{task}/request-changes', [TaskReviewController::class, 'requestChanges'])->name('tasks.request-changes');
+        Route::get('/tasks/assign', [TaskAssignmentController::class, 'create'])->name('tasks.assign');
+        Route::post('/tasks/assign', [TaskAssignmentController::class, 'store'])->name('tasks.assign.store');
     });
 
     Route::middleware('role:staff,admin')->prefix('staff')->name('staff.')->group(function () {

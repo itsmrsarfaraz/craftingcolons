@@ -49,6 +49,7 @@
             if ($user->hasRole('team-lead')) {
                 $groups[] = $renderGroup('Team Lead', [
                     $link('team-lead.tasks.review', 'Review Tasks', '🔍'),
+                    $link('team-lead.tasks.assign', 'Assign Task', '➕'),
                 ]);
             }
 
