@@ -106,23 +106,39 @@
                         <input type="number" name="marks" value="1" min="1" required
                             class="w-full rounded-lg border border-ink-700 bg-ink-800 px-3 py-2 text-white">
                     </div>
-                    <div x-show="type === 'coding'">
+                    <div x-show="type === 'coding'" x-cloak>
                         <label class="mb-1 block text-sm text-ink-300">Language</label>
                         <input type="text" name="language" placeholder="e.g. php, python"
                             class="w-full rounded-lg border border-ink-700 bg-ink-800 px-3 py-2 text-white">
                     </div>
                 </div>
 
-                <div x-show="['mcq', 'true_false', 'multiple_select'].includes(type)" class="space-y-2">
+                <!-- Options: rendered as real, always-present DOM elements (not x-for template
+                    nodes), only visually hidden with x-show. This guarantees the inputs exist
+                    in the actual submitted form regardless of Alpine's init timing. -->
+                <div x-show="['mcq', 'true_false', 'multiple_select'].includes(type)" x-cloak class="space-y-2">
                     <label class="mb-1 block text-sm text-ink-300">Options</label>
-                    <template x-for="i in 4" :key="i">
+
+                    @for ($i = 0; $i < 4; $i++)
                         <div class="flex items-center gap-2">
-                            <input type="checkbox" :name="'options['+(i-1)+'][is_correct]'" value="1"
+                            <input type="checkbox" name="options[{{ $i }}][is_correct]" value="1"
                                 class="rounded border-ink-700 bg-ink-800">
-                            <input type="text" :name="'options['+(i-1)+'][label]'" placeholder="Option text"
+                            <input type="text" name="options[{{ $i }}][label]" placeholder="Option text"
                                 class="flex-1 rounded-lg border border-ink-700 bg-ink-800 px-3 py-2 text-white">
                         </div>
-                    </template>
+                    @endfor
+                </div>
+
+                <div x-show="['short_answer', 'long_answer'].includes(type)" x-cloak class="text-sm text-ink-500">
+                    Candidates will type a free-text answer — you'll grade this manually after submission.
+                </div>
+
+                <div x-show="type === 'file_upload'" x-cloak class="text-sm text-ink-500">
+                    Candidates will upload a file — you'll review it manually after submission.
+                </div>
+
+                <div x-show="type === 'coding'" x-cloak class="text-sm text-ink-500">
+                    Candidates will submit code in the language specified above — you'll review it manually after submission.
                 </div>
 
                 <button type="submit" class="btn-primary">Add Question</button>
