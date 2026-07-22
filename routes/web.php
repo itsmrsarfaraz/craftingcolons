@@ -31,6 +31,7 @@ use App\Http\Controllers\Employee\TaskReportController;
 use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\Hr\AssessmentController;
 use App\Http\Controllers\Hr\AttemptReviewController;
+use App\Http\Controllers\Hr\EmployeeController;
 use App\Http\Controllers\Hr\EmployeeOnboardingController;
 use App\Http\Controllers\Hr\GradingController;
 use App\Http\Controllers\Hr\JobPostingController;
@@ -194,6 +195,10 @@ Route::middleware('auth')->group(function () {
             ->name('onboarding.store');
 
         Route::get('/applications', [HrJobApplicationController::class, 'all'])->name('applications.all');
+
+        Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
+        Route::get('/employees/{employee}/edit', [EmployeeController::class, 'edit'])->name('employees.edit');
+        Route::put('/employees/{employee}', [EmployeeController::class, 'update'])->name('employees.update');
     });
 
     Route::middleware('role:employee')->prefix('employee')->name('employee.')->group(function () {
