@@ -192,6 +192,8 @@ Route::middleware('auth')->group(function () {
             ->name('onboarding.create');
         Route::post('/applications/{application}/onboard', [EmployeeOnboardingController::class, 'store'])
             ->name('onboarding.store');
+
+        Route::get('/applications', [HrJobApplicationController::class, 'all'])->name('applications.all');
     });
 
     Route::middleware('role:employee')->prefix('employee')->name('employee.')->group(function () {

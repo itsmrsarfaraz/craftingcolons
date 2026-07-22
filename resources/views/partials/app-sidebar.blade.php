@@ -59,6 +59,8 @@
                 $groups[] = $renderGroup('Recruitment', [
                     $link('hr.dashboard', 'Dashboard', 'home'),
                     $link('hr.jobs.index', 'Job Postings', 'briefcase'),
+                    $link('hr.jobs.create', 'Post a Job', 'plus-circle'),
+                    $link('hr.applications.all', 'All Applications', 'users'),
                 ]);
             }
 

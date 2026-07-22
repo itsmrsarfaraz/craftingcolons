@@ -9,6 +9,7 @@ use App\Models\JobApplication;
 use App\Models\JobPosting;
 use App\Services\Hr\JobApplicationStatusService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class JobApplicationController extends Controller
@@ -36,6 +37,16 @@ class JobApplicationController extends Controller
         $application->load('applicant.applicantProfile', 'document', 'attempt.violations', 'jobPosting');
 
         return view('hr.applications.show', compact('application'));
+    }
+
+    public function all(Request $request): View
+    {
+        $applications = \App\Models\JobApplication::query()
+            ->with('applicant', 'jobPosting', 'attempt')
+            ->latest('applied_at')
+            ->paginate(20);
+
+        return view('hr.applications.all', compact('applications'));
     }
 
     public function updateStatus(UpdateApplicationStatusRequest $request, JobApplication $application): RedirectResponse
