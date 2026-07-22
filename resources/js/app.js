@@ -1,3 +1,8 @@
+import Alpine from 'alpinejs';
+
+window.Alpine = Alpine;
+Alpine.start();
+
 document.addEventListener('DOMContentLoaded', () => {
     const revealElements = document.querySelectorAll('[data-reveal]');
 
@@ -12,10 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     revealElements.forEach((el) => observer.observe(el));
 
-    // Re-render Lucide icons after Alpine mutates the DOM (e.g. mobile menu toggling)
+    // Re-render Lucide icons after Alpine mutates the DOM
     if (window.lucide) {
         window.lucide.createIcons();
     }
+    
     document.addEventListener('alpine:updated', () => {
         if (window.lucide) window.lucide.createIcons();
     });

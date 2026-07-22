@@ -26,8 +26,12 @@ class StoreQuestionRequest extends FormRequest
         ];
 
         if ($type?->usesOptions()) {
-            $rules['options'] = ['required', 'array', 'min:2'];
-            $rules['options.*.label'] = ['required', 'string', 'max:500'];
+            // Only validate rows that actually have a non-blank label —
+            // blank rows are just unused slots in the option pool, not
+            // errors. This is what lets HR use 2, 3, 5, or 6 options
+            // without a fixed count.
+            $rules['options'] = ['required', 'array'];
+            $rules['options.*.label'] = ['nullable', 'string', 'max:500'];
             $rules['options.*.is_correct'] = ['boolean'];
         }
 
@@ -35,8 +39,10 @@ class StoreQuestionRequest extends FormRequest
     }
 
     /**
-     * Cross-field rule that array-shape validation can't express:
-     * MCQ/True-False need exactly one correct option; Multiple Select needs at least one.
+     * Cross-field rules array validation can't express:
+     * - At least 2 non-blank options overall.
+     * - Exactly one correct option for MCQ/True-False, at least one for Multiple Select.
+     * - True/False must have exactly 2 non-blank options.
      */
     public function withValidator($validator): void
     {
@@ -47,9 +53,23 @@ class StoreQuestionRequest extends FormRequest
                 return;
             }
 
-            $correctCount = collect($this->input('options', []))
-                ->filter(fn ($option) => (bool) ($option['is_correct'] ?? false))
-                ->count();
+            $filledOptions = collect($this->input('options', []))
+                ->filter(fn ($option) => filled($option['label'] ?? null))
+                ->values();
+
+            if ($filledOptions->count() < 2) {
+                $validator->errors()->add('options', 'At least 2 options are required.');
+
+                return;
+            }
+
+            if ($type === QuestionType::TrueFalse && $filledOptions->count() !== 2) {
+                $validator->errors()->add('options', 'True/False questions must have exactly 2 options.');
+
+                return;
+            }
+
+            $correctCount = $filledOptions->filter(fn ($option) => (bool) ($option['is_correct'] ?? false))->count();
 
             if ($correctCount === 0) {
                 $validator->errors()->add('options', 'At least one option must be marked correct.');

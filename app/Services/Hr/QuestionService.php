@@ -55,11 +55,16 @@ class QuestionService
 
     private function syncOptions(Question $question, array $options): void
     {
-        foreach ($options as $index => $option) {
+        $index = 0;
+        foreach ($options as $option) {
+            if (blank($option['label'] ?? null)) {
+                continue;
+            }
+
             $question->options()->create([
                 'label' => $option['label'],
                 'is_correct' => (bool) ($option['is_correct'] ?? false),
-                'order' => $index,
+                'order' => $index++,
             ]);
         }
     }

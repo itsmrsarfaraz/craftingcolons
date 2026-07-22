@@ -113,21 +113,44 @@
                     </div>
                 </div>
 
-                <!-- Options: rendered as real, always-present DOM elements (not x-for template
-                    nodes), only visually hidden with x-show. This guarantees the inputs exist
-                    in the actual submitted form regardless of Alpine's init timing. -->
-                <div x-show="['mcq', 'true_false', 'multiple_select'].includes(type)" x-cloak class="space-y-2">
-                    <label class="mb-1 block text-sm text-ink-300">Options</label>
-
-                    @for ($i = 0; $i < 4; $i++)
+                {{-- True / False Block --}}
+                <template x-if="type === 'true_false'">
+                    <div class="space-y-2">
+                        <label class="mb-1 block text-sm text-ink-300">Correct Answer</label>
                         <div class="flex items-center gap-2">
-                            <input type="checkbox" name="options[{{ $i }}][is_correct]" value="1"
-                                class="rounded border-ink-700 bg-ink-800">
-                            <input type="text" name="options[{{ $i }}][label]" placeholder="Option text"
-                                class="flex-1 rounded-lg border border-ink-700 bg-ink-800 px-3 py-2 text-white">
+                            <input type="radio" name="tf_selected" value="0" class="rounded border-ink-700 bg-ink-800"
+                                x-on:change="$refs.tf0.value = '1'; $refs.tf1.value = '0'" required>
+                            <input type="hidden" name="options[0][is_correct]" x-ref="tf0" value="0">
+                            <input type="hidden" name="options[0][label]" value="True">
+                            <span class="text-white">True</span>
                         </div>
-                    @endfor
-                </div>
+                        <div class="flex items-center gap-2">
+                            <input type="radio" name="tf_selected" value="1" class="rounded border-ink-700 bg-ink-800"
+                                x-on:change="$refs.tf0.value = '0'; $refs.tf1.value = '1'">
+                            <input type="hidden" name="options[1][is_correct]" x-ref="tf1" value="0">
+                            <input type="hidden" name="options[1][label]" value="False">
+                            <span class="text-white">False</span>
+                        </div>
+                    </div>
+                </template>
+
+                {{-- MCQ / Multiple Select Block --}}
+                <template x-if="['mcq', 'multiple_select'].includes(type)">
+                    <div class="space-y-2">
+                        <label class="mb-1 block text-sm text-ink-300">
+                            Options <span class="text-xs text-ink-500">(leave unused rows blank — 2 to 6 options supported)</span>
+                        </label>
+
+                        @for ($i = 0; $i < 6; $i++)
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" name="options[{{ $i }}][is_correct]" value="1"
+                                    class="rounded border-ink-700 bg-ink-800">
+                                <input type="text" name="options[{{ $i }}][label]" placeholder="Option {{ $i + 1 }} (optional)"
+                                    class="flex-1 rounded-lg border border-ink-700 bg-ink-800 px-3 py-2 text-white">
+                            </div>
+                        @endfor
+                    </div>
+                </template>
 
                 <div x-show="['short_answer', 'long_answer'].includes(type)" x-cloak class="text-sm text-ink-500">
                     Candidates will type a free-text answer — you'll grade this manually after submission.
