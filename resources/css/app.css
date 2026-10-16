@@ -1,15 +1,5 @@
-@import 'tailwindcss';
-
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
-}
 @import "tailwindcss";
 
-/* Tailwind v4: theme tokens replace the old tailwind.config block */
 @theme {
   --color-bg: #0B0F19;
   --color-panel: #111827;
@@ -21,4 +11,21 @@
   --font-pixel: "Press Start 2P", monospace;
 }
 
-/* PASTE the contents of the old <style>...</style> block from index.html below this line */
+button { cursor: pointer; }
+body{background:#0B0F19;color:#e5e7eb;background-image:linear-gradient(rgba(6,182,212,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(6,182,212,.05) 1px,transparent 1px);background-size:40px 40px}
+.glow-c{box-shadow:0 0 18px rgba(6,182,212,.35)}
+.card{background:#111827;border:1px solid rgba(99,102,241,.35);transition:border-color .2s,box-shadow .2s,transform .2s}
+.card:hover,.card.active{border-color:#06B6D4;box-shadow:0 0 22px rgba(6,182,212,.3)}
+.colon{animation:blink 1.2s steps(2,start) infinite;color:#10B981;text-shadow:0 0 8px #10B981}
+@keyframes blink{50%{opacity:.2}}
+.cursor::after{content:"▋";animation:blink 1s steps(2,start) infinite;color:#06B6D4}
+.btn{position:relative;font-family:'JetBrains Mono',monospace;font-weight:600;transition:transform .1s,box-shadow .2s}
+.btn:active{transform:scale(.96)}
+.pulse{animation:pulse .5s ease-out}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(16,185,129,.8)}100%{box-shadow:0 0 0 22px rgba(16,185,129,0)}}
+.badge{font-family:'JetBrains Mono',monospace;font-size:.7rem;border:1px solid rgba(16,185,129,.5);color:#10B981;background:rgba(16,185,129,.08);padding:.15rem .5rem}
+.tab{border:1px solid rgba(99,102,241,.5);padding:.4rem .9rem;font-family:'JetBrains Mono',monospace;font-size:.85rem;transition:all .15s}
+.tab.on,.tab:hover{background:#06B6D4;color:#0B0F19;border-color:#06B6D4}
+:focus-visible{outline:2px solid #10B981;outline-offset:2px}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
