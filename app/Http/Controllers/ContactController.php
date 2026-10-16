@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Mail\NewContactMessage;
+use Illuminate\Support\Facades\Mail;
 use App\Models\ContactMessage;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -17,7 +19,13 @@ class ContactController extends Controller
             'message'    => ['required', 'string', 'min:10', 'max:3000'],
         ]);
 
-        ContactMessage::create($data + ['ip' => $request->ip()]);
+        $contact = ContactMessage::create($data + ['ip' => $request->ip()]);
+
+        try {
+            Mail::to(config('mail.contact_receiver'))->send(new NewContactMessage($contact));
+        } catch (\Throwable $e) {
+            report($e); // the message is already saved, so a mail failure must not lose it
+        }
 
         return response()->json(['message' => 'Transmission sent. The guild will reply to ' . $data['email'] . ' soon.']);
     }
