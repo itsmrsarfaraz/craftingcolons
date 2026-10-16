@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ContactMessages;
 
+use Illuminate\Database\Eloquent\Model;
 use App\Filament\Resources\ContactMessages\Pages\CreateContactMessage;
 use App\Filament\Resources\ContactMessages\Pages\EditContactMessage;
 use App\Filament\Resources\ContactMessages\Pages\ListContactMessages;
@@ -46,5 +47,20 @@ class ContactMessageResource extends Resource
             'create' => CreateContactMessage::route('/create'),
             'edit' => EditContactMessage::route('/{record}/edit'),
         ];
+    }
+
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
+    public static function canEdit(Model $record): bool
+    {
+        return false;
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) static::getModel()::count();
     }
 }
