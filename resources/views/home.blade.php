@@ -5,33 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Crafting Colons | Software Agency &amp; Technology Solutions</title>
 <meta name="description" content="Crafting Colons builds web applications, desktop software, IoT integrations and AI agent pipelines.">
-<script src="https://cdn.tailwindcss.com"></script>
+
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-<script>
-tailwind.config = { theme: { extend: {
-  colors: { bg:'#0B0F19', panel:'#111827', cyan:'#06B6D4', indigo:'#6366F1', emerald:'#10B981' },
-  fontFamily: { sans:['Inter','system-ui','sans-serif'], mono:['JetBrains Mono','ui-monospace','monospace'], pixel:['"Press Start 2P"','monospace'] }
-}}}
-</script>
-<style>
-body{background:#0B0F19;color:#e5e7eb;background-image:linear-gradient(rgba(6,182,212,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(6,182,212,.05) 1px,transparent 1px);background-size:40px 40px}
-.glow-c{box-shadow:0 0 18px rgba(6,182,212,.35)}
-.card{background:#111827;border:1px solid rgba(99,102,241,.35);transition:border-color .2s,box-shadow .2s,transform .2s}
-.card:hover,.card.active{border-color:#06B6D4;box-shadow:0 0 22px rgba(6,182,212,.3)}
-.colon{animation:blink 1.2s steps(2,start) infinite;color:#10B981;text-shadow:0 0 8px #10B981}
-@keyframes blink{50%{opacity:.2}}
-.cursor::after{content:"▋";animation:blink 1s steps(2,start) infinite;color:#06B6D4}
-.btn{position:relative;font-family:'JetBrains Mono',monospace;font-weight:600;transition:transform .1s,box-shadow .2s}
-.btn:active{transform:scale(.96)}
-.pulse{animation:pulse .5s ease-out}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(16,185,129,.8)}100%{box-shadow:0 0 0 22px rgba(16,185,129,0)}}
-.badge{font-family:'JetBrains Mono',monospace;font-size:.7rem;border:1px solid rgba(16,185,129,.5);color:#10B981;background:rgba(16,185,129,.08);padding:.15rem .5rem}
-.pix{font-family:'Press Start 2P',monospace}
-.tab{border:1px solid rgba(99,102,241,.5);padding:.4rem .9rem;font-family:'JetBrains Mono',monospace;font-size:.85rem;transition:all .15s}
-.tab.on,.tab:hover{background:#06B6D4;color:#0B0F19;border-color:#06B6D4}
-:focus-visible{outline:2px solid #10B981;outline-offset:2px}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-</style>
+@vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="font-sans antialiased">
 
@@ -95,28 +71,7 @@ body{background:#0B0F19;color:#e5e7eb;background-image:linear-gradient(rgba(6,18
 <section id="services" class="max-w-7xl mx-auto px-4 py-16">
   <h2 class="pix text-xl text-white">SELECT YOUR QUEST</h2>
   <p class="mt-4 text-gray-400">Choose a specialized path for your software development lifecycle.</p>
-  <div class="mt-8 grid md:grid-cols-2 gap-5" id="quests">
-    <button class="card quest p-6 text-left" aria-pressed="false" data-type="Web Development">
-      <h3 class="font-mono font-bold text-cyan">Quest I: Web &amp; SaaS Architecture</h3>
-      <p class="mt-3 text-gray-300 text-sm">Enterprise-grade full-stack web applications, scalable APIs, and modern responsive frontends.</p>
-      <div class="mt-4 flex flex-wrap gap-2"><span class="badge">Laravel</span><span class="badge">PHP</span><span class="badge">Tailwind CSS</span><span class="badge">Alpine.js</span><span class="badge">React</span><span class="badge">MySQL</span></div>
-    </button>
-    <button class="card quest p-6 text-left" aria-pressed="false" data-type="Desktop App">
-      <h3 class="font-mono font-bold text-cyan">Quest II: Desktop Application Development</h3>
-      <p class="mt-3 text-gray-300 text-sm">Robust, high-speed Windows desktop applications and Point-of-Sale (POS) systems engineered for offline resilience and performance.</p>
-      <div class="mt-4 flex flex-wrap gap-2"><span class="badge">C#</span><span class="badge">.NET</span><span class="badge">WPF</span><span class="badge">Entity Framework Core</span><span class="badge">SQLite</span></div>
-    </button>
-    <button class="card quest p-6 text-left" aria-pressed="false" data-type="IoT/Hardware">
-      <h3 class="font-mono font-bold text-cyan">Quest III: Smart IoT &amp; Embedded Hardware</h3>
-      <p class="mt-3 text-gray-300 text-sm">Connecting the physical and digital worlds using microcontrollers, sensor arrays, automated vending systems, and circuit design.</p>
-      <div class="mt-4 flex flex-wrap gap-2"><span class="badge">ESP32</span><span class="badge">ESP32-CAM</span><span class="badge">Arduino</span><span class="badge">C++</span><span class="badge">Sensor Automation</span></div>
-    </button>
-    <button class="card quest p-6 text-left" aria-pressed="false" data-type="AI Integration">
-      <h3 class="font-mono font-bold text-cyan">Quest IV: AI Workflows &amp; Automation</h3>
-      <p class="mt-3 text-gray-300 text-sm">Custom AI pipelines, local LLM deployments, autonomous agents, and intelligence integration.</p>
-      <div class="mt-4 flex flex-wrap gap-2"><span class="badge">LangGraph</span><span class="badge">Ollama</span><span class="badge">Qwen</span><span class="badge">NVIDIA NIM APIs</span><span class="badge">Python</span></div>
-    </button>
-  </div>
+  @include('partials.services')
   <div id="questInfo" class="mt-5 border border-dashed border-emerald/50 p-4 font-mono text-sm text-emerald min-h-[3.5rem]">&gt; Select a quest to inspect it.</div>
 </section>
 
@@ -130,32 +85,7 @@ body{background:#0B0F19;color:#e5e7eb;background-image:linear-gradient(rgba(6,18
     <button class="tab" data-f="desktop">[ Desktop ]</button>
     <button class="tab" data-f="edu">[ Education/Tools ]</button>
   </div>
-  <div class="mt-8 grid md:grid-cols-2 gap-5" id="grid">
-    <article class="card p-6" data-cat="web" data-title="SeeHostels.com" data-tag="Hostel Bed Reservation &amp; Property Management Platform" data-det="Seamless bed bookings, real-time availability, dynamic property dashboard, and automated booking notifications." data-kind="Web / SaaS">
-      <span class="badge">Web / SaaS</span><h3 class="mt-3 font-mono font-bold text-lg text-white">SeeHostels.com</h3>
-      <p class="text-cyan text-sm mt-1">Hostel Bed Reservation &amp; Property Management Platform</p>
-      <p class="mt-3 text-sm text-gray-300">Seamless bed bookings, real-time availability, dynamic property dashboard, and automated booking notifications.</p>
-      <button class="btn mt-4 text-emerald text-sm underline preview">[ Inspect artifact ]</button>
-    </article>
-    <article class="card p-6" data-cat="desktop" data-title="CraftingPOS" data-tag="Desktop Point of Sale &amp; Inventory Engine" data-det="Fast, offline-first WPF desktop software designed for retail businesses with barcode scanning, receipts, and analytical reporting." data-kind="Desktop / Retail">
-      <span class="badge">Desktop / Retail</span><h3 class="mt-3 font-mono font-bold text-lg text-white">CraftingPOS</h3>
-      <p class="text-cyan text-sm mt-1">Desktop Point of Sale &amp; Inventory Engine</p>
-      <p class="mt-3 text-sm text-gray-300">Fast, offline-first WPF desktop software designed for retail businesses with barcode scanning, receipts, and analytical reporting.</p>
-      <button class="btn mt-4 text-emerald text-sm underline preview">[ Inspect artifact ]</button>
-    </article>
-    <article class="card p-6" data-cat="edu desktop" data-title="SmartTimetable" data-tag="Rule-Based Academic Schedule Generator" data-det="Automated timetable generation application tailored for educational institutions, solving teacher and room conflict matrices." data-kind="Education / Desktop Tool">
-      <span class="badge">Education / Desktop Tool</span><h3 class="mt-3 font-mono font-bold text-lg text-white">SmartTimetable</h3>
-      <p class="text-cyan text-sm mt-1">Rule-Based Academic Schedule Generator</p>
-      <p class="mt-3 text-sm text-gray-300">Automated timetable generation application tailored for educational institutions, solving teacher and room conflict matrices.</p>
-      <button class="btn mt-4 text-emerald text-sm underline preview">[ Inspect artifact ]</button>
-    </article>
-    <article class="card p-6" data-cat="web edu" data-title="Skolevo" data-tag="Next-Gen Educational Portal &amp; LMS Platform" data-det="Modern learning management platform for schools and colleges, handling student progress, schedules, and administrative workflows." data-kind="Web / Platform">
-      <span class="badge">Web / Platform</span><h3 class="mt-3 font-mono font-bold text-lg text-white">Skolevo</h3>
-      <p class="text-cyan text-sm mt-1">Next-Gen Educational Portal &amp; LMS Platform</p>
-      <p class="mt-3 text-sm text-gray-300">Modern learning management platform for schools and colleges, handling student progress, schedules, and administrative workflows.</p>
-      <button class="btn mt-4 text-emerald text-sm underline preview">[ Inspect artifact ]</button>
-    </article>
-  </div>
+  @include('partials.projects')
 </section>
 
 <!-- ABOUT -->
@@ -293,7 +223,7 @@ const closeModal = () => { modal.classList.add('hidden'); modal.classList.remove
 $$('.preview').forEach(b => b.addEventListener('click', () => {
   const d = b.closest('article').dataset;
   $('#mKind').textContent = d.kind; $('#mTitle').textContent = d.title;
-  $('#mTag').innerHTML = d.tag; $('#mDet').textContent = d.det;
+  $('#mTag').textContent = d.tag; $('#mDet').textContent = d.det;
   modal.classList.remove('hidden'); modal.classList.add('flex'); $('#mClose').focus();
 }));
 $('#mClose').addEventListener('click', closeModal);

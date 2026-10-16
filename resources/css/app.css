@@ -7,3 +7,18 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+@import "tailwindcss";
+
+/* Tailwind v4: theme tokens replace the old tailwind.config block */
+@theme {
+  --color-bg: #0B0F19;
+  --color-panel: #111827;
+  --color-cyan: #06B6D4;
+  --color-indigo: #6366F1;
+  --color-emerald: #10B981;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-pixel: "Press Start 2P", monospace;
+}
+
+/* PASTE the contents of the old <style>...</style> block from index.html below this line */
